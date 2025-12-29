@@ -75,13 +75,22 @@ $$Verify MerkleProof(\mathrm{keccak256}(\mathrm{sid}_i,r_i,\mathrm{win}_i),merkl
 
 ## Repository Layout (Monorepo)
 - `apps/frontend`: Next.js frontend
-- `apps/api`: Node.js (Fastify) API service (target backend)
-- `apps/backend-python`: Current Flask backend kept for validation/testing
+- `apps/api`: Node.js (Fastify) API service
 - `contracts/sol`: Solidity contracts
 - `contracts/move`: Move contracts
 - `packages/`: Shared libraries (future)
 
 ## Development Quickstart
-- Frontend: `pnpm -C apps/frontend dev`
-- API (Node): `pnpm -C apps/api dev`
-- Python backend: `cd apps/backend-python && python run.py`
+- All services (frontend + API): `pnpm dev`
+- Frontend only: `pnpm dev:frontend`
+- API (Node) only: `pnpm dev:api`
+  - Frontend API base: `NEXT_PUBLIC_API_BASE_URL` (default `http://localhost:5002/api`)
+
+## Postgres (Local via Docker)
+- Start: `docker compose up -d`
+- Stop: `docker compose down`
+- Reset data: `docker compose down -v`
+
+After Postgres is up:
+- Generate Prisma client: `pnpm -C apps/api prisma:generate`
+- Run migrations: `pnpm -C apps/api prisma:migrate`

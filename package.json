@@ -2,10 +2,13 @@
   "name": "zk-asset-raffle",
   "private": true,
   "scripts": {
-    "dev": "pnpm -C apps/frontend dev",
+    "dev": "concurrently -n web,api -c blue,green \"pnpm -C apps/frontend dev\" \"pnpm -C apps/api dev\"",
     "dev:frontend": "pnpm -C apps/frontend dev",
     "dev:api": "pnpm -C apps/api dev",
     "build:frontend": "pnpm -C apps/frontend build",
     "lint:frontend": "pnpm -C apps/frontend lint"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
   }
 }
