@@ -1,0 +1,16 @@
+# Ignore everything by default in this package
+*
+!.gitignore
+
+# Keep only the primary Solidity contract and future Move sources
+!/sol/
+!/sol/ZkAssetRaffle.sol
+!/move/
+move/build/
+!/move/Move.toml
+!/move/Move.lock
+!/move/sources/
+!/move/sources/**
+
+# Allow local README if added in future
+!README.md
