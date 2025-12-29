@@ -7,6 +7,8 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
+    "@trpc/client": "^10.45.2",
+    "@zk-asset-raffle/trpc": "workspace:*",
     "@zk-asset-raffle/types": "workspace:*"
   }
 }

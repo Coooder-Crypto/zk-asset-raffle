@@ -12,7 +12,9 @@
   "dependencies": {
     "@fastify/cors": "^10.0.0",
     "@prisma/client": "^5.22.0",
+    "@trpc/server": "^10.45.2",
     "@zk-asset-raffle/crypto": "workspace:*",
+    "@zk-asset-raffle/trpc": "workspace:*",
     "@zk-asset-raffle/types": "workspace:*",
     "dotenv": "^16.4.5",
     "ethers": "^6.13.4",
