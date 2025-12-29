@@ -1,4 +1,52 @@
+import { createHash, createCipheriv, createDecipheriv } from "node:crypto";
 import { keccak256, toUtf8Bytes } from "ethers";
+
+const ALPHABET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+export type MerkleProofNode = {
+  position: "left" | "right";
+  data: string;
+};
+
+export function randomString(length: number): string {
+  let result = "";
+  for (let i = 0; i < length; i += 1) {
+    const idx = Math.floor(Math.random() * ALPHABET.length);
+    result += ALPHABET[idx];
+  }
+  return result;
+}
+
+export function shuffle<T>(items: T[]): T[] {
+  for (let i = items.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [items[i], items[j]] = [items[j], items[i]];
+  }
+  return items;
+}
+
+export function sha256Key(input: string): Buffer {
+  return createHash("sha256").update(input).digest();
+}
+
+export function encryptAesEcb(key: string, data: string): string {
+  const derivedKey = sha256Key(key);
+  const cipher = createCipheriv("aes-256-ecb", derivedKey, null);
+  cipher.setAutoPadding(true);
+  const encrypted = Buffer.concat([cipher.update(data, "utf8"), cipher.final()]);
+  return encrypted.toString("base64");
+}
+
+export function decryptAesEcb(key: string, data: string): string {
+  const derivedKey = sha256Key(key);
+  const decipher = createDecipheriv("aes-256-ecb", derivedKey, null);
+  decipher.setAutoPadding(true);
+  const decrypted = Buffer.concat([
+    decipher.update(Buffer.from(data, "base64")),
+    decipher.final()
+  ]);
+  return decrypted.toString("utf8");
+}
 
 function normalizeHex(input: string): string {
   return input.startsWith("0x") ? input.slice(2) : input;
@@ -17,11 +65,6 @@ export function hashLeaf(sid: string, r_i: string, win_i: number): string {
   const hash = keccak256(toUtf8Bytes(raw));
   return normalizeHex(hash);
 }
-
-export type MerkleProofNode = {
-  position: "left" | "right";
-  data: string;
-};
 
 export class MerkleTree {
   private layers: Buffer[][] = [];

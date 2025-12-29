@@ -1,17 +1,18 @@
 import { FastifyInstance } from "fastify";
 import { prisma } from "../db.js";
-import { randomString, shuffle } from "../utils/random.js";
-import { encryptAesEcb, decryptAesEcb } from "../utils/crypto.js";
-import { buildMerkle, hashLeaf } from "../utils/merkle.js";
+import type { CreateActivityRequest } from "@zk-asset-raffle/types";
+import {
+  randomString,
+  shuffle,
+  encryptAesEcb,
+  decryptAesEcb,
+  buildMerkle,
+  hashLeaf
+} from "@zk-asset-raffle/crypto";
 
 type PrizeInput = { name: string; count: number };
 
-type CreateActivityBody = {
-  name: string;
-  total_items: number;
-  prizes: PrizeInput[];
-  creator_address?: string | null;
-};
+type CreateActivityBody = CreateActivityRequest;
 
 function validateCreateBody(body: CreateActivityBody) {
   if (!body || !body.name || !Number.isInteger(body.total_items) || body.total_items <= 0) {
