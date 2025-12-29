@@ -10,7 +10,7 @@ import { PrizeTierList, PrizeTier } from '@/components/create/PrizeTierList';
 import { TicketConfig } from '@/components/create/TicketConfig';
 import { ProgressPanel } from '@/components/create/ProgressPanel';
 import { SectionHeader } from '@/components/common/SectionHeader';
-import { apiService } from '@/utils/api-service';
+import { useCreateActivity } from '@/hooks/useActivityApi';
 import { useCurrentAccount, useSignAndExecuteTransactionBlock, useSuiClient } from '@mysten/dapp-kit';
 import { buildCommitRaffleTx, buildCreateRaffleTx, waitForSuiTransaction } from '@/lib/sui/raffle';
 
@@ -33,6 +33,7 @@ export function CreateRaffleFormSui() {
 
   const router = useRouter();
   const { toast } = useToast();
+  const { createActivity } = useCreateActivity();
   const account = useCurrentAccount();
   const suiClient = useSuiClient();
   const { mutateAsync: signAndExecute } = useSignAndExecuteTransactionBlock();
@@ -183,7 +184,7 @@ export function CreateRaffleFormSui() {
         creator_address: account.address,
       };
 
-      const response = await apiService.createActivity(activityData);
+      const response = await createActivity(activityData);
 
       if (response.status !== 'success') {
         throw new Error(response.message || 'Failed to create activity');

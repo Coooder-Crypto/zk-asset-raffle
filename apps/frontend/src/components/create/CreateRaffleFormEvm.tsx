@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { apiService } from '@/utils/api-service';
+import { useCreateActivity } from '@/hooks/useActivityApi';
 import ZkAssetRaffleABI from '@/abi/ZkAssetRaffle.json';
 import { useAccount, useWriteContract, usePublicClient } from 'wagmi';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
@@ -41,6 +41,7 @@ export function CreateRaffleFormEvm() {
   const { openConnectModal } = useConnectModal();
   const { writeContractAsync } = useWriteContract();
   const publicClient = usePublicClient();
+  const { createActivity } = useCreateActivity();
 
   const addPrizeTier = () => {
     if (prizeTiers.length >= 10) {
@@ -223,7 +224,7 @@ export function CreateRaffleFormEvm() {
         creator_address: address,
       };
       
-      const response = await apiService.createActivity(activityData);
+      const response = await createActivity(activityData);
       
       if (response.status !== 'success') {
         throw new Error(response.message || 'Failed to create activity');

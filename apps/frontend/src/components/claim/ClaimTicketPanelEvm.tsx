@@ -7,7 +7,7 @@ import { useAccount, useWriteContract, usePublicClient, useReadContract } from '
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { useToast } from '@/components/ui/use-toast';
 import { CONTRACTS } from '@/config/contracts';
-import { apiService } from '@/utils/api-service';
+import { useItemBySidFetcher } from '@/hooks/useActivityApi';
 import { sidToBytes32, base64ToHex0x } from '@/utils/raffle';
 import { ActionPanel } from '@/components/claim/ActionPanel';
 import { Modal } from '@/components/ui/modal';
@@ -29,6 +29,7 @@ export function ClaimTicketPanelEvm({ qrData, onClaimSuccess }: QRCodeClaimProps
   const publicClient = usePublicClient();
   const { toast } = useToast();
   const [redeemInfo, setRedeemInfo] = useState<{ open: boolean; winLevel: number; txHash?: `0x${string}` } | null>(null);
+  const { fetchItemBySid } = useItemBySidFetcher();
 
   // Determine raffleId from payload
   const raffleId = qrData.raffleId || qrData.activity_id;
@@ -226,7 +227,7 @@ export function ClaimTicketPanelEvm({ qrData, onClaimSuccess }: QRCodeClaimProps
 
     try {
       // Fetch proof and win data from backend
-      const itemResponse = await apiService.getItemBySid(raffleId as string, qrData.sid);
+      const itemResponse = await fetchItemBySid(raffleId as string, qrData.sid);
       
       if (itemResponse.status !== 'success' || !itemResponse.r_i || typeof itemResponse.win_i !== 'number') {
         throw new Error('Raffle not yet revealed or item data not available');

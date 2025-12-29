@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { CheckCircle, AlertCircle, Loader2, Key } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
-import { apiService } from '@/utils/api-service';
+import { useRevealActivity } from '@/hooks/useActivityApi';
 import type { RevealKeyComponentProps } from '@/components/reveal/types';
 import { useCurrentAccount, useSignAndExecuteTransactionBlock, useSuiClient } from '@mysten/dapp-kit';
 import { buildRevealKeyTx, waitForSuiTransaction } from '@/lib/sui/raffle';
@@ -21,6 +21,7 @@ export function RevealKeyDialogSui({ raffleId, onRevealSuccess }: RevealKeyCompo
   } | null>(null);
 
   const { toast } = useToast();
+  const { revealActivity } = useRevealActivity();
   const account = useCurrentAccount();
   const suiClient = useSuiClient();
   const { mutateAsync: signAndExecute } = useSignAndExecuteTransactionBlock();
@@ -40,7 +41,7 @@ export function RevealKeyDialogSui({ raffleId, onRevealSuccess }: RevealKeyCompo
     setRevealResult(null);
 
     try {
-      const resp = await apiService.revealActivity(raffleId);
+      const resp = await revealActivity(raffleId);
       if (resp.status !== 'success' || !resp.key) {
         throw new Error(resp.message || 'Failed to obtain encryption key from backend');
       }

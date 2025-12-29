@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Ticket as TicketIcon, Wallet } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
-import { apiService } from '@/utils/api-service';
+import { useItemBySidFetcher } from '@/hooks/useActivityApi';
 import { base64ToHex0x } from '@/utils/raffle';
 import { ActionPanel } from '@/components/claim/ActionPanel';
 import { Modal } from '@/components/ui/modal';
@@ -24,6 +24,7 @@ export function ClaimTicketPanelSui({ qrData, onClaimSuccess }: QRCodeClaimProps
   //
 
   const { toast } = useToast();
+  const { fetchItemBySid } = useItemBySidFetcher();
   const account = useCurrentAccount();
   const suiClient = useSuiClient();
   const { mutateAsync: signAndExecute } = useSignAndExecuteTransactionBlock();
@@ -163,7 +164,7 @@ export function ClaimTicketPanelSui({ qrData, onClaimSuccess }: QRCodeClaimProps
     setIsProcessing(true);
 
     try {
-      const itemResponse = await apiService.getItemBySid(raffleId, qrData.sid);
+      const itemResponse = await fetchItemBySid(raffleId, qrData.sid);
 
       if (itemResponse.status !== 'success' || !itemResponse.r_i || typeof itemResponse.win_i !== 'number') {
         throw new Error(itemResponse.message || 'Raffle not revealed or ticket data unavailable');
