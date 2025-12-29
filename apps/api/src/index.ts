@@ -1,6 +1,7 @@
 import "dotenv/config";
 import Fastify from "fastify";
 import cors from "@fastify/cors";
+import { registerActivityRoutes } from "./routes/activity.js";
 
 const server = Fastify({ logger: true });
 
@@ -10,6 +11,8 @@ await server.register(cors, {
 });
 
 server.get("/health", async () => ({ status: "ok" }));
+
+await server.register(registerActivityRoutes, { prefix: "/api" });
 
 const port = Number(process.env.PORT || 5001);
 const host = process.env.HOST || "0.0.0.0";
