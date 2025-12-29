@@ -37,6 +37,27 @@ function prepareWinPool(totalItems: number, prizes: { wid: number; count: number
   return shuffle(winPool);
 }
 
+function formatActivity(activity: {
+  id: string;
+  name: string;
+  totalItems: number;
+  status: string;
+  creatorAddress: string | null;
+  createdAt: Date | null;
+  prizes: { prizeConfig: string }[];
+}) {
+  const prizeConfig = activity.prizes[0]?.prizeConfig;
+  return {
+    activity_id: activity.id,
+    name: activity.name,
+    total_items: activity.totalItems,
+    status: activity.status,
+    creator_address: activity.creatorAddress,
+    created_at: activity.createdAt ? activity.createdAt.toISOString() : null,
+    prizes: prizeConfig ? JSON.parse(prizeConfig) : []
+  };
+}
+
 export async function registerActivityRoutes(server: FastifyInstance) {
   server.post<{ Body: CreateActivityBody }>("/activity/create", async (request, reply) => {
     try {
@@ -135,6 +156,109 @@ export async function registerActivityRoutes(server: FastifyInstance) {
     }
   });
 
+  server.get("/activities", async () => {
+    const activities = await prisma.activity.findMany({
+      orderBy: { createdAt: "desc" },
+      include: { prizes: true }
+    });
+
+    return {
+      status: "success",
+      activities: activities.map(formatActivity)
+    };
+  });
+
+  server.get("/activities/by-creator/:address", async (request) => {
+    const { address } = request.params as { address: string };
+    const addr = (address || "").toLowerCase();
+
+    const activities = await prisma.activity.findMany({
+      where: { creatorAddress: addr },
+      orderBy: { createdAt: "desc" },
+      include: { prizes: true }
+    });
+
+    return {
+      status: "success",
+      activities: activities.map(formatActivity)
+    };
+  });
+
+  server.get("/activity/:activityId/status", async (request, reply) => {
+    const { activityId } = request.params as { activityId: string };
+    const activity = await prisma.activity.findUnique({ where: { id: activityId } });
+
+    if (!activity) {
+      return reply.status(404).send({ status: "error", message: "Activity not found" });
+    }
+
+    return {
+      status: "success",
+      activity_id: activity.id,
+      activity_status: activity.status
+    };
+  });
+
+  server.get("/activity/:activityId/items", async (request, reply) => {
+    const { activityId } = request.params as { activityId: string };
+    const activity = await prisma.activity.findUnique({ where: { id: activityId } });
+
+    if (!activity) {
+      return reply.status(404).send({ status: "error", message: "Activity not found" });
+    }
+
+    const items = await prisma.item.findMany({
+      where: { activityId },
+      orderBy: { id: "asc" }
+    });
+
+    return {
+      status: "success",
+      items: items.map((item) => ({
+        sid: item.sid,
+        r_i: item.r_i,
+        win_i: item.win_i,
+        leaf: item.leaf,
+        proof: item.proof ? JSON.parse(item.proof) : null,
+        encrypted_data: item.encryptedData
+      }))
+    };
+  });
+
+  server.get("/activity/:activityId/prizes", async (request, reply) => {
+    const { activityId } = request.params as { activityId: string };
+    const prize = await prisma.prize.findFirst({ where: { activityId } });
+
+    if (!prize) {
+      return reply.status(404).send({ status: "error", message: "No prizes found for this activity" });
+    }
+
+    return {
+      status: "success",
+      prizes: JSON.parse(prize.prizeConfig)
+    };
+  });
+
+  server.get("/activity/:activityId/items/:sid", async (request, reply) => {
+    const { activityId, sid } = request.params as { activityId: string; sid: string };
+    const item = await prisma.item.findFirst({
+      where: { activityId, sid }
+    });
+
+    if (!item) {
+      return reply.status(404).send({ status: "error", message: "Item not found" });
+    }
+
+    return {
+      status: "success",
+      sid: item.sid,
+      r_i: item.r_i,
+      win_i: item.win_i,
+      leaf: item.leaf,
+      proof: item.proof ? JSON.parse(item.proof) : null
+    };
+  });
+
   server.post("/activity/:activityId/reveal", async (request, reply) => {
     const { activityId } = request.params as { activityId: string };
     const activity = await prisma.activity.findUnique({
@@ -191,6 +315,26 @@ export async function registerActivityRoutes(server: FastifyInstance) {
       status: "success",
       activity_id: activityId,
       key: activity.key
+    };
+  });
+
+  server.delete("/activity/:activityId", async (request, reply) => {
+    const { activityId } = request.params as { activityId: string };
+    const activity = await prisma.activity.findUnique({ where: { id: activityId } });
+
+    if (!activity) {
+      return reply.status(404).send({ status: "error", message: "Activity not found" });
+    }
+
+    await prisma.$transaction([
+      prisma.item.deleteMany({ where: { activityId } }),
+      prisma.prize.deleteMany({ where: { activityId } }),
+      prisma.activity.delete({ where: { id: activityId } })
+    ]);
+
+    return {
+      status: "success",
+      message: `Activity ${activityId} deleted`
     };
   });
 }
