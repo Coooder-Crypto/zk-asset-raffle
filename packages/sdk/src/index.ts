@@ -24,37 +24,49 @@ const client = createTRPCProxyClient<AppRouter>({
   ]
 });
 
+async function safeCall<T extends ApiResponse>(fn: () => Promise<T>): Promise<T> {
+  try {
+    return await fn();
+  } catch (error) {
+    console.error("tRPC request error:", error);
+    return {
+      status: "error",
+      message: error instanceof Error ? error.message : "Unknown error occurred"
+    } as T;
+  }
+}
+
 export const apiService = {
   createActivity(data: CreateActivityRequest): Promise<CreateActivityResponse> {
-    return client.activity.create.mutate(data);
+    return safeCall(() => client.activity.create.mutate(data));
   },
 
   getActivities(): Promise<ActivityListResponse> {
-    return client.activity.list.query();
+    return safeCall(() => client.activity.list.query());
   },
 
   getActivitiesByCreator(address: string): Promise<ActivityListResponse> {
-    return client.activity.listByCreator.query({ address });
+    return safeCall(() => client.activity.listByCreator.query({ address }));
   },
 
   getActivityStatus(activityId: string): Promise<ActivityStatusResponse> {
-    return client.activity.status.query({ activityId });
+    return safeCall(() => client.activity.status.query({ activityId }));
   },
 
   getActivityItems(activityId: string): Promise<ActivityItemsResponse> {
-    return client.activity.items.query({ activityId });
+    return safeCall(() => client.activity.items.query({ activityId }));
   },
 
   getItemBySid(activityId: string, sid: string): Promise<ActivityItemResponse> {
-    return client.activity.itemBySid.query({ activityId, sid });
+    return safeCall(() => client.activity.itemBySid.query({ activityId, sid }));
   },
 
   revealActivity(activityId: string): Promise<RevealResponse> {
-    return client.activity.reveal.mutate({ activityId });
+    return safeCall(() => client.activity.reveal.mutate({ activityId }));
   },
 
   deleteActivity(activityId: string): Promise<ApiResponse> {
-    return client.activity.delete.mutate({ activityId });
+    return safeCall(() => client.activity.delete.mutate({ activityId }));
   }
 };
 

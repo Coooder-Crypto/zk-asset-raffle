@@ -25,6 +25,87 @@ export type AppContext = {
 
 const t = initTRPC.context<AppContext>().create();
 
+const apiResponseSchema = z.object({
+  status: z.enum(["success", "error"]),
+  message: z.string().optional()
+});
+
+const prizeSchema = z.object({
+  name: z.string(),
+  count: z.number().int(),
+  wid: z.number().int()
+});
+
+const activityItemSchema = z.object({
+  sid: z.string(),
+  r_i: z.string().nullable().optional(),
+  win_i: z.number().int().nullable().optional(),
+  leaf: z.string(),
+  proof: z
+    .array(
+      z.object({
+        position: z.enum(["left", "right"]),
+        data: z.string()
+      })
+    )
+    .nullable(),
+  encrypted_data: z.string()
+});
+
+const activityListItemSchema = z.object({
+  activity_id: z.string(),
+  name: z.string(),
+  total_items: z.number().int(),
+  status: z.string(),
+  prizes: z.array(prizeSchema),
+  creator_address: z.string().nullable().optional(),
+  created_at: z.string().nullable().optional()
+});
+
+const createActivityResponseSchema = apiResponseSchema.extend({
+  activity_id: z.string().optional(),
+  key: z.string().optional(),
+  prizes: z.array(prizeSchema).optional(),
+  merkle_root: z.string().optional(),
+  creator_address: z.string().nullable().optional(),
+  message: z.string().optional()
+});
+
+const activityListResponseSchema = apiResponseSchema.extend({
+  activities: z.array(activityListItemSchema).optional()
+});
+
+const activityStatusResponseSchema = apiResponseSchema.extend({
+  activity_id: z.string().optional(),
+  activity_status: z.string().optional()
+});
+
+const activityItemsResponseSchema = apiResponseSchema.extend({
+  items: z.array(activityItemSchema).optional()
+});
+
+const activityItemResponseSchema = apiResponseSchema.extend({
+  sid: z.string().optional(),
+  r_i: z.string().nullable().optional(),
+  win_i: z.number().int().nullable().optional(),
+  leaf: z.string().optional(),
+  proof: z
+    .array(
+      z.object({
+        position: z.enum(["left", "right"]),
+        data: z.string()
+      })
+    )
+    .nullable()
+    .optional()
+});
+
+const revealResponseSchema = apiResponseSchema.extend({
+  key: z.string().optional()
+});
+
+const deleteResponseSchema = apiResponseSchema;
+
 function prepareWinPool(totalItems: number, prizes: { wid: number; count: number }[]) {
   const winPool: number[] = [];
   for (const prize of prizes) {
@@ -47,8 +128,14 @@ const createActivityInput = z.object({
 });
 
 export const appRouter = t.router({
+  health: t.procedure
+    .output(z.object({ status: z.literal("ok") }))
+    .query(() => ({ status: "ok" })),
   activity: t.router({
-    create: t.procedure.input(createActivityInput).mutation(async ({ ctx, input }) => {
+    create: t.procedure
+      .input(createActivityInput)
+      .output(createActivityResponseSchema)
+      .mutation(async ({ ctx, input }) => {
       const { name, total_items, prizes, creator_address } = input as CreateActivityRequest;
 
       const totalWinners = prizes.reduce((sum, prize) => sum + prize.count, 0);
@@ -135,7 +222,7 @@ export const appRouter = t.router({
       } satisfies CreateActivityResponse;
     }),
 
-    list: t.procedure.query(async ({ ctx }) => {
+    list: t.procedure.output(activityListResponseSchema).query(async ({ ctx }) => {
       const activities = await ctx.prisma.activity.findMany({
         orderBy: { createdAt: "desc" },
         include: { prizes: true }
@@ -160,6 +247,7 @@ export const appRouter = t.router({
 
     listByCreator: t.procedure
       .input(z.object({ address: z.string() }))
+      .output(activityListResponseSchema)
       .query(async ({ ctx, input }) => {
         const addr = (input.address || "").toLowerCase();
         const activities = await ctx.prisma.activity.findMany({
@@ -187,6 +275,7 @@ export const appRouter = t.router({
 
     status: t.procedure
       .input(z.object({ activityId: z.string() }))
+      .output(activityStatusResponseSchema)
       .query(async ({ ctx, input }) => {
         const activity = await ctx.prisma.activity.findUnique({ where: { id: input.activityId } });
         if (!activity) {
@@ -201,6 +290,7 @@ export const appRouter = t.router({
 
     items: t.procedure
       .input(z.object({ activityId: z.string() }))
+      .output(activityItemsResponseSchema)
       .query(async ({ ctx, input }) => {
         const activity = await ctx.prisma.activity.findUnique({ where: { id: input.activityId } });
         if (!activity) {
@@ -227,6 +317,7 @@ export const appRouter = t.router({
 
     itemBySid: t.procedure
       .input(z.object({ activityId: z.string(), sid: z.string() }))
+      .output(activityItemResponseSchema)
       .query(async ({ ctx, input }) => {
         const item = await ctx.prisma.item.findFirst({
           where: { activityId: input.activityId, sid: input.sid }
@@ -248,6 +339,7 @@ export const appRouter = t.router({
 
     reveal: t.procedure
       .input(z.object({ activityId: z.string() }))
+      .output(revealResponseSchema)
       .mutation(async ({ ctx, input }) => {
         const activity = await ctx.prisma.activity.findUnique({
           where: { id: input.activityId },
@@ -311,6 +403,7 @@ export const appRouter = t.router({
 
     delete: t.procedure
       .input(z.object({ activityId: z.string() }))
+      .output(deleteResponseSchema)
       .mutation(async ({ ctx, input }) => {
         const activity = await ctx.prisma.activity.findUnique({ where: { id: input.activityId } });
         if (!activity) {
