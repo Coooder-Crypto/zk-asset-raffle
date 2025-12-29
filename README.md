@@ -72,3 +72,16 @@ $$r_i,\mathrm{win}_i=\mathrm{Decryption}_{key}(C_i)$$
 $$Verify MerkleProof(\mathrm{keccak256}(\mathrm{sid}_i,r_i,\mathrm{win}_i),merklepath,Root)$$
 
 ![](image.png)
+
+## Repository Layout (Monorepo)
+- `apps/frontend`: Next.js frontend
+- `apps/api`: Node.js (Fastify) API service (target backend)
+- `apps/backend-python`: Current Flask backend kept for validation/testing
+- `contracts/sol`: Solidity contracts
+- `contracts/move`: Move contracts
+- `packages/`: Shared libraries (future)
+
+## Development Quickstart
+- Frontend: `pnpm -C apps/frontend dev`
+- API (Node): `pnpm -C apps/api dev`
+- Python backend: `cd apps/backend-python && python run.py`
