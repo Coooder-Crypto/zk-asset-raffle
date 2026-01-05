@@ -1,4 +1,5 @@
 import { FastifyInstance } from "fastify";
+import type { Prisma } from "@prisma/client";
 import { prisma } from "../db.js";
 import { randomString, shuffle } from "../utils/random.js";
 import { encryptAesEcb, decryptAesEcb } from "../utils/crypto.js";
@@ -270,7 +271,7 @@ export async function registerActivityRoutes(server: FastifyInstance) {
       return reply.status(404).send({ status: "error", message: "Activity not found" });
     }
 
-    const updates = [] as Promise<unknown>[];
+    const updates: Prisma.PrismaPromise<unknown>[] = [];
 
     for (const item of activity.items) {
       if (item.r_i && item.win_i !== null) {

@@ -71,5 +71,6 @@ export type ActivityItemResponse = ApiResponse & {
 };
 
 export type RevealResponse = ApiResponse & {
+  activity_id?: string;
   key?: string;
 };
