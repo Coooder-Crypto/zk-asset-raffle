@@ -10,5 +10,13 @@
   },
   "devDependencies": {
     "concurrently": "^9.1.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "@paulmillr/qr": "0.3.0",
+      "@walletconnect/ethereum-provider": "2.23.1",
+      "@walletconnect/sign-client": "2.23.1",
+      "@walletconnect/universal-provider": "2.23.1"
+    }
   }
 }
