@@ -4,10 +4,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ConnectButton as RainbowConnectButton } from "@rainbow-me/rainbowkit";
-import { ConnectButton as SuiConnectButton } from "@mysten/dapp-kit";
 import { Menu, X, Zap } from "lucide-react";
 import { cn } from "@/utils/utils";
-import { BLOCKCHAIN_TARGET } from "@/config/blockchain";
 
 type NavItem = { href: string; label: string };
 
@@ -53,7 +51,7 @@ export function Header() {
             ))}
           </nav>
           <div className="hidden sm:flex">
-            {BLOCKCHAIN_TARGET === 'sui' ? <SuiConnectButton /> : <RainbowConnectButton />}
+            <RainbowConnectButton />
           </div>
           <button
             className="md:hidden p-2 rounded-lg hover:bg-muted"
@@ -84,7 +82,7 @@ export function Header() {
               </Link>
             ))}
             <div className="mt-3">
-              {BLOCKCHAIN_TARGET === 'sui' ? <SuiConnectButton /> : <RainbowConnectButton />}
+              <RainbowConnectButton />
             </div>
           </div>
         </div>
