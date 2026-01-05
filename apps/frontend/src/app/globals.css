@@ -42,6 +42,10 @@
   /* Destructive Colors */
   --destructive: #ef4444;
   --destructive-foreground: #fef2f2;
+
+  /* Font fallbacks to avoid remote font downloads */
+  --font-geist-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-geist-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 }
 
 @theme inline {
