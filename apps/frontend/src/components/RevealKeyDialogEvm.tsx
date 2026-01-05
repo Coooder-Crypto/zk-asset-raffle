@@ -9,7 +9,7 @@ import { useAccount, useWriteContract, usePublicClient, useReadContract } from '
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { useToast } from '@/components/ui/use-toast';
 import { CONTRACTS } from '@/config/contracts';
-import { apiService } from '@/utils/api-service';
+import { useRevealActivity } from '@/hooks/useActivityApi';
 import type { RevealKeyComponentProps } from '@/components/reveal/types';
 
 export function RevealKeyDialogEvm({ raffleId, onRevealSuccess }: RevealKeyComponentProps) {
@@ -25,6 +25,7 @@ export function RevealKeyDialogEvm({ raffleId, onRevealSuccess }: RevealKeyCompo
   const { writeContractAsync } = useWriteContract();
   const publicClient = usePublicClient();
   const { toast } = useToast();
+  const { revealActivity } = useRevealActivity();
 
   // Read contract state to check current raffle status
   const { data: raffleData } = useReadContract({
@@ -54,7 +55,7 @@ export function RevealKeyDialogEvm({ raffleId, onRevealSuccess }: RevealKeyCompo
 
     try {
       // 1) Fetch encryption key from backend and mark backend as revealed
-      const resp = await apiService.revealActivity(raffleId);
+      const resp = await revealActivity(raffleId);
       if (resp.status !== 'success' || !resp.key) {
         throw new Error(resp.message || 'Failed to obtain encryption key from backend');
       }

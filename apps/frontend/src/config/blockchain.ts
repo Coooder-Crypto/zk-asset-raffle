@@ -1,4 +1,3 @@
-export type BlockchainTarget = 'evm' | 'sui';
+export type BlockchainTarget = 'evm';
 
-export const BLOCKCHAIN_TARGET: BlockchainTarget =
-  (process.env.NEXT_PUBLIC_BLOCKCHAIN_TARGET as BlockchainTarget) || 'evm';
+export const BLOCKCHAIN_TARGET: BlockchainTarget = 'evm';

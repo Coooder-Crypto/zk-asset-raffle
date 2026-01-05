@@ -11,6 +11,12 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: false,
   },
+  transpilePackages: [
+    "@zk-asset-raffle/sdk",
+    "@zk-asset-raffle/types",
+    "@zk-asset-raffle/crypto",
+    "@zk-asset-raffle/trpc",
+  ],
 };
 
 module.exports = nextConfig;

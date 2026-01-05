@@ -11,6 +11,8 @@
     "lint:ci": "next lint --max-warnings=0"
   },
   "dependencies": {
+    "@zk-asset-raffle/sdk": "workspace:*",
+    "@zk-asset-raffle/trpc": "workspace:*",
     "@radix-ui/react-dialog": "^1.1.13",
     "@radix-ui/react-label": "^2.1.6",
     "@radix-ui/react-slot": "^1.2.2",
@@ -18,8 +20,6 @@
     "@radix-ui/react-toast": "^1.2.13",
     "@rainbow-me/rainbowkit": "^2.2.5",
     "@tanstack/react-query": "^5.76.1",
-    "@mysten/dapp-kit": "^0.14.10",
-    "@mysten/sui.js": "^0.54.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
@@ -29,11 +29,13 @@
     "jszip": "^3.10.1",
     "lucide-react": "^0.511.0",
     "motion": "^12.23.12",
-    "next": "15.3.2",
+    "next": "16.1.1",
     "qrcode": "^1.5.4",
     "qrcode.react": "^4.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "@trpc/client": "^11.8.1",
+    "@trpc/react-query": "^11.8.1",
     "tailwind-merge": "^3.3.1",
     "viem": "^2.29.4",
     "wagmi": "^2.15.3"
@@ -45,7 +47,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "15.3.2",
+    "eslint-config-next": "16.1.1",
     "pino-pretty": "^13.0.0",
     "tailwindcss": "^4",
     "typescript": "^5"

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/components/ui/use-toast';
 import { useAccount, usePublicClient } from 'wagmi';
-import { apiService } from '@/utils/api-service';
+import { useActivityItemsFetcher, useActivitiesByCreator, useDeleteActivity } from '@/hooks/useActivityApi';
 import { CONTRACTS } from '@/config/contracts';
 // child components are composed inside ActivityCard
 import JSZip from 'jszip';
@@ -38,6 +38,12 @@ export default function AdminDashboard({
   const { toast } = useToast();
   const { address, isConnected } = useAccount();
   const publicClient = usePublicClient();
+  const { data: activitiesResp, isLoading: isActivitiesLoading } = useActivitiesByCreator(
+    address ? address.toLowerCase() : undefined,
+    isConnected
+  );
+  const { fetchActivityItems } = useActivityItemsFetcher();
+  const { deleteActivity } = useDeleteActivity();
   // Inline expanders removed; actions open in modal from ActivityCard
   type ActivityItem = { sid: string; encrypted_data: string };
   const [qrCodeItems, setQrCodeItems] = useState<Record<string, ActivityItem[]>>({});
@@ -50,62 +56,51 @@ export default function AdminDashboard({
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    const fetchUserActivities = async () => {
-      if (!isConnected || !address) {
-        setEntries([]);
-        setLoading(false);
-        return;
-      }
-      setLoading(true);
-      try {
-        const resp = await apiService.getActivitiesByCreator(address.toLowerCase());
-        if (resp.status === 'success') {
-          const rows: ActivityRow[] = ((resp.activities || []) as Array<{ activity_id: string; name?: string; created_at?: string; total_items?: number }>).map((a) => ({
-            id: a.activity_id,
-            name: a.name || `Raffle ${a.activity_id.substring(0, 8)}`,
-            createdAt: a.created_at,
-            totalItems: a.total_items,
-          }));
-          setEntries(rows);
+    if (!isConnected || !address) {
+      setEntries([]);
+      setLoading(false);
+      return;
+    }
+    setLoading(isActivitiesLoading);
+    if (!activitiesResp) return;
+    if (activitiesResp.status === 'success') {
+      const rows: ActivityRow[] = ((activitiesResp.activities || []) as Array<{ activity_id: string; name?: string; created_at?: string; total_items?: number }>).map((a) => ({
+        id: a.activity_id,
+        name: a.name || `Raffle ${a.activity_id.substring(0, 8)}`,
+        createdAt: a.created_at,
+        totalItems: a.total_items,
+      }));
+      setEntries(rows);
 
-          // Fetch on-chain state for each activity (best-effort)
-          if (publicClient) {
-            const updated = await Promise.all(rows.map(async (row) => {
-              try {
-                const data: unknown = await publicClient.readContract({
-                  address: CONTRACTS.ZK_ASSET_RAFFLE.address,
-                  abi: CONTRACTS.ZK_ASSET_RAFFLE.abi,
-                  functionName: 'getRaffle',
-                  args: [row.id],
-                });
-                let stateNum = 0;
-                if (typeof data === 'object' && data !== null) {
-                  if ('state' in (data as Record<string, unknown>)) {
-                    const s = (data as Record<string, unknown>).state;
-                    stateNum = Number(s as number);
-                  } else if (Array.isArray(data)) {
-                    stateNum = Number((data as unknown[])[3] as number);
-                  }
-                }
-                return { ...row, chainState: stateNum } as ActivityRow;
-              } catch {
-                return row;
+      // Fetch on-chain state for each activity (best-effort)
+      if (publicClient) {
+        Promise.all(rows.map(async (row) => {
+          try {
+            const data: unknown = await publicClient.readContract({
+              address: CONTRACTS.ZK_ASSET_RAFFLE.address,
+              abi: CONTRACTS.ZK_ASSET_RAFFLE.abi,
+              functionName: 'getRaffle',
+              args: [row.id],
+            });
+            let stateNum = 0;
+            if (typeof data === 'object' && data !== null) {
+              if ('state' in (data as Record<string, unknown>)) {
+                const s = (data as Record<string, unknown>).state;
+                stateNum = Number(s as number);
+              } else if (Array.isArray(data)) {
+                stateNum = Number((data as unknown[])[3] as number);
               }
-            }));
-            setEntries(updated);
+            }
+            return { ...row, chainState: stateNum } as ActivityRow;
+          } catch {
+            return row;
           }
-        } else {
-          toast({ title: 'Error', description: resp.message || 'Failed to load activities', variant: 'destructive' });
-        }
-      } catch (e) {
-        console.error(e);
-        toast({ title: 'Error', description: 'Failed to load activities', variant: 'destructive' });
-      } finally {
-        setLoading(false);
+        })).then((updated) => setEntries(updated));
       }
-    };
-    fetchUserActivities();
-  }, [isConnected, address, publicClient, toast]);
+    } else if (activitiesResp.status === 'error') {
+      toast({ title: 'Error', description: activitiesResp.message || 'Failed to load activities', variant: 'destructive' });
+    }
+  }, [isConnected, address, publicClient, toast, activitiesResp, isActivitiesLoading]);
 
   // Notify parent about stats when entries change
   React.useEffect(() => {
@@ -119,7 +114,7 @@ export default function AdminDashboard({
   // Function to load QR code items for a specific activity
   const loadQRCodeItems = async (activityId: string) => {
     try {
-      const resp = await apiService.getActivityItems(activityId);
+      const resp = await fetchActivityItems(activityId);
       if (resp.status === 'success' && resp.items) {
         setQrCodeItems(prev => ({ ...prev, [activityId]: resp.items }));
       } else {
@@ -225,7 +220,7 @@ export default function AdminDashboard({
     if (!activeId) return;
     setIsDeleting(true);
     try {
-      const resp = await apiService.deleteActivity(activeId);
+      const resp = await deleteActivity(activeId);
       if (resp.status === 'success') {
         setEntries(prev => prev.filter(e => e.id !== activeId));
         setQrCodeItems(prev => {

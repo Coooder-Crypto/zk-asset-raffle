@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useToast } from '@/components/ui/use-toast';
 import { usePublicClient, useWriteContract } from 'wagmi';
-import { apiService } from '@/utils/api-service';
+import { useActivityItemsFetcher } from '@/hooks/useActivityApi';
 import { CONTRACTS } from '@/config/contracts';
 import { 
   RefreshCw, 
@@ -56,11 +56,12 @@ export default function AutoRedeemList({
   toast,
 }: AutoRedeemListProps): React.JSX.Element {
   const [loading, setLoading] = useState(false);
+  const { fetchActivityItems } = useActivityItemsFetcher();
 
   const loadWinners = useCallback(async () => {
     try {
       setLoading(true);
-      const resp = await apiService.getActivityItems(raffleId);
+      const resp = await fetchActivityItems(raffleId);
       
       if (resp.status !== 'success' || !resp.items) {
         throw new Error(resp.message || 'Failed to load items');

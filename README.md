@@ -84,7 +84,7 @@ $$Verify MerkleProof(\mathrm{keccak256}(\mathrm{sid}_i,r_i,\mathrm{win}_i),merkl
 - All services (frontend + API): `pnpm dev`
 - Frontend only: `pnpm dev:frontend`
 - API (Node) only: `pnpm dev:api`
-  - Frontend API base: `NEXT_PUBLIC_API_BASE_URL` (default `http://localhost:5002/api`)
+  - Frontend tRPC URL: `NEXT_PUBLIC_TRPC_URL` (default `http://localhost:5002/trpc`)
 
 ## Postgres (Local via Docker)
 - Start: `docker compose up -d`
