@@ -73,3 +73,6 @@ zk-asset-raffle-contract/*
 !zk-asset-raffle-contract/sol/ZkAssetRaffle.sol
 !zk-asset-raffle-contract/move/
 !zk-asset-raffle-contract/move/**
+
+
+apps/api/dist
