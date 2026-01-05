@@ -9,7 +9,6 @@ import {
 } from '@rainbow-me/rainbowkit';
 import { WagmiProvider } from 'wagmi';
 import { mainnet, sepolia } from 'wagmi/chains';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { http } from 'viem';
 
 // You should get a project ID from WalletConnect Cloud: https://cloud.walletconnect.com/
@@ -18,8 +17,6 @@ const projectId = 'YOUR_PROJECT_ID';
 
 // Configure chains and generate required connectors
 // Lazily initialize on the client to avoid touching browser APIs during SSR
-
-const queryClient = new QueryClient();
 
 interface RainbowKitProviderProps {
   children: ReactNode;
@@ -38,20 +35,18 @@ export const RainbowKitProvider: React.FC<RainbowKitProviderProps> = ({ children
   }), []);
   return (
     <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <RKProvider
-          theme={lightTheme({
-            accentColor: '#3b82f6', // blue-500
-            accentColorForeground: 'white',
-            borderRadius: 'medium',
-          })}
-          modalSize="compact"
-          showRecentTransactions={false}
-          coolMode
-        >
-          {children}
-        </RKProvider>
-      </QueryClientProvider>
+      <RKProvider
+        theme={lightTheme({
+          accentColor: '#3b82f6', // blue-500
+          accentColorForeground: 'white',
+          borderRadius: 'medium',
+        })}
+        modalSize="compact"
+        showRecentTransactions={false}
+        coolMode
+      >
+        {children}
+      </RKProvider>
     </WagmiProvider>
   );
 };

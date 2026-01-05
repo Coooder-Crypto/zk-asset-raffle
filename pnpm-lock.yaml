@@ -4,9 +4,19 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  '@paulmillr/qr': 0.3.0
+  '@walletconnect/ethereum-provider': 2.23.1
+  '@walletconnect/sign-client': 2.23.1
+  '@walletconnect/universal-provider': 2.23.1
+
 importers:
 
-  .: {}
+  .:
+    devDependencies:
+      concurrently:
+        specifier: ^9.1.0
+        version: 9.2.1
 
   apps/api:
     dependencies:
@@ -16,6 +26,18 @@ importers:
       '@prisma/client':
         specifier: ^5.22.0
         version: 5.22.0(prisma@5.22.0)
+      '@trpc/server':
+        specifier: ^11.8.1
+        version: 11.8.1(typescript@5.9.3)
+      '@zk-asset-raffle/crypto':
+        specifier: workspace:*
+        version: link:../../packages/crypto
+      '@zk-asset-raffle/trpc':
+        specifier: workspace:*
+        version: link:../../packages/trpc
+      '@zk-asset-raffle/types':
+        specifier: workspace:*
+        version: link:../../packages/types
       dotenv:
         specifier: ^16.4.5
         version: 16.6.1

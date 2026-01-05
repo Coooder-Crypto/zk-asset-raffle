@@ -104,7 +104,11 @@ export function ActivityCard({
             </div>
             <div className="text-sm md:text-base font-semibold">
               {entry.createdAt
-                ? new Date(entry.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+                ? new Date(entry.createdAt).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    timeZone: 'UTC',
+                  })
                 : '—'}
             </div>
           </div>
