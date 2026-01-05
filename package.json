@@ -1,6 +1,10 @@
 {
   "name": "zk-asset-raffle",
   "private": true,
+  "packageManager": "pnpm@10.27.0",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "concurrently -n web,api -c blue,green \"pnpm -C apps/frontend dev\" \"pnpm -C apps/api dev\"",
     "dev:frontend": "pnpm -C apps/frontend dev",
