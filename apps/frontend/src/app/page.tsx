@@ -15,8 +15,8 @@ export default function Home() {
   return (
     <div className="flex flex-col gap-14 text-slate-900">
       {/* Hero Section */}
-      <section className="relative rounded-3xl border border-[#e7e2d9] bg-[#f8f6f2] shadow-[0_8px_30px_rgba(15,23,42,0.08)]">
-        <div className="absolute inset-0 rounded-3xl bg-[linear-gradient(90deg,rgba(15,23,42,0.04)_1px,transparent_1px),linear-gradient(rgba(15,23,42,0.04)_1px,transparent_1px)] bg-[size:64px_64px] opacity-60" />
+      <section className="relative rounded-xl border border-[#e7e2d9] bg-[#f8f6f2] shadow-[0_8px_30px_rgba(15,23,42,0.08)]">
+        <div className="absolute inset-0 rounded-xl bg-[linear-gradient(90deg,rgba(15,23,42,0.04)_1px,transparent_1px),linear-gradient(rgba(15,23,42,0.04)_1px,transparent_1px)] bg-[size:64px_64px] opacity-60" />
         <div className="relative grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] gap-10 p-8 md:p-12 items-center">
           <div className="space-y-6">
             <div className="inline-flex items-center gap-2 rounded-full border border-slate-300/80 bg-white/80 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.2em] text-slate-600">
@@ -47,7 +47,7 @@ export default function Home() {
           </div>
 
           <div className="relative">
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_20px_60px_rgba(15,23,42,0.12)]">
+            <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-[0_20px_60px_rgba(15,23,42,0.12)]">
               <div className="flex items-center justify-between text-xs text-slate-500 mb-4">
                 <span className="font-mono">raffle-page.md</span>
                 <span className="rounded-full border border-slate-200 px-2 py-1">Draft</span>
@@ -124,7 +124,7 @@ export default function Home() {
       </section>
 
       <section className="py-12">
-        <div className="rounded-2xl border border-slate-200 bg-white/90 p-6 md:p-8">
+        <div className="rounded-xl border border-slate-200 bg-white/90 p-6 md:p-8">
           <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
             <div>
               <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Workflow</div>

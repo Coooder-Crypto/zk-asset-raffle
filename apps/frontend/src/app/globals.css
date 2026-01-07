@@ -6,14 +6,14 @@
   --foreground: #0f172a;
 
   /* Neutral-first palette */
-  --primary: #0f172a;
-  --primary-dark: #0b1220;
-  --secondary: #475569;
-  --secondary-dark: #334155;
+  --primary: #0f766e;
+  --primary-dark: #0f5e58;
+  --secondary: #334155;
+  --secondary-dark: #1f2937;
 
   /* Accent */
-  --accent: #2563eb;
-  --accent-light: #60a5fa;
+  --accent: #0f766e;
+  --accent-light: #5eead4;
   --muted: #f1f0ec;
   --muted-foreground: #5b6472;
 
@@ -28,7 +28,7 @@
   /* UI-LAYOUTS Theme Variables */
   --border: #e4e0d8;
   --input: #ffffff;
-  --ring: #2563eb;
+  --ring: #0f766e;
   --radius: 0.5rem;
 
   /* Card Colors */

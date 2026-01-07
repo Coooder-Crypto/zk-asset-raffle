@@ -237,7 +237,7 @@ const QRCodeScanner: React.FC<QRCodeScannerProps> = () => {
             )}
           </div>
           {scanResult && (
-            <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-md">
+            <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg">
               <p className="text-sm font-medium text-green-800">QR Code Scanned Successfully</p>
               <p className="text-xs text-green-700 mt-1">
                 {scanResult.plaintext.substring(0, 50)}
@@ -262,7 +262,7 @@ const QRCodeScanner: React.FC<QRCodeScannerProps> = () => {
       {/* QR Code Data Display and Check/Claim Component */}
       {qrData && scanResult && (
         <div className="w-full max-w-md mt-4">
-          <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-md">
+          <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
             <p className="text-sm font-medium text-green-800 mb-2">Ticket Data Ready</p>
             <div className="text-xs text-green-700 space-y-1">
               <p><strong>SID:</strong> {qrData.sid}</p>

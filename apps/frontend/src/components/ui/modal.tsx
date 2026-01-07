@@ -17,7 +17,7 @@ export function Modal({ open, onClose, title, children, maxWidthClass }: ModalPr
     <div className="fixed inset-0 z-[200] flex items-center justify-center">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/50 z-[190]"
+        className="absolute inset-0 bg-slate-900/30 z-[190]"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -26,14 +26,14 @@ export function Modal({ open, onClose, title, children, maxWidthClass }: ModalPr
       <div
         role="dialog"
         aria-modal="true"
-        className={`relative z-[200] w-full ${maxWidthClass || 'max-w-3xl'} mx-4 rounded-lg bg-background border border-border shadow-lg`}
+        className={`relative z-[200] w-full ${maxWidthClass || 'max-w-3xl'} mx-4 rounded-xl bg-white border border-slate-200 shadow-[0_20px_60px_rgba(15,23,42,0.12)]`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-border/60">
-          <h3 className="text-sm font-semibold">{title}</h3>
+        <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200">
+          <h3 className="text-sm font-semibold text-slate-900">{title}</h3>
           <button
             onClick={onClose}
-            className="inline-flex items-center justify-center h-8 w-8 rounded-md hover:bg-muted/50"
+            className="inline-flex items-center justify-center h-8 w-8 rounded-lg hover:bg-slate-100"
             aria-label="Close"
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">

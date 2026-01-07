@@ -92,13 +92,13 @@ export function ActivityCard({
       {/* Middle: centered stats to balance vertical space */}
       <div className="flex-1 flex items-center justify-center min-h-0">
         <div className="grid grid-cols-2 gap-2 w-full">
-          <div className="flex flex-col items-center justify-center rounded-md px-1.5 py-2 bg-muted/60 border border-border/60 text-center">
+          <div className="flex flex-col items-center justify-center rounded-lg px-1.5 py-2 bg-muted/60 border border-border/60 text-center">
             <div className="text-[11px] md:text-xs text-muted-foreground flex items-center gap-1">
               <Users className="h-3.5 w-3.5" /> Tickets
             </div>
             <div className="text-sm md:text-base font-semibold">{entry.totalItems ?? '—'}</div>
           </div>
-          <div className="flex flex-col items-center justify-center rounded-md px-1.5 py-2 bg-muted/60 border border-border/60 text-center">
+          <div className="flex flex-col items-center justify-center rounded-lg px-1.5 py-2 bg-muted/60 border border-border/60 text-center">
             <div className="text-[11px] md:text-xs text-muted-foreground flex items-center gap-1">
               <Calendar className="h-3.5 w-3.5" /> Created
             </div>

@@ -32,7 +32,7 @@ export function ManualInputPanel({
                 placeholder='{"sid":"example123","encrypted_data":"base64data...","raffleId":"activityId123"}'
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
-                className="w-full min-h-[120px] p-3 text-sm border border-gray-300 rounded-md resize-vertical font-mono"
+                className="w-full min-h-[120px] p-3 text-sm border border-gray-300 rounded-lg resize-vertical font-mono"
                 rows={5}
               />
               <p className="text-xs text-gray-500 mt-1">

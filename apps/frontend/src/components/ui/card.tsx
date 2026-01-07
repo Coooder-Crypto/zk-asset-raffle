@@ -9,7 +9,7 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-xl border border-slate-200 bg-white text-slate-900",
+      "rounded-xl border border-slate-200 bg-white text-slate-900 shadow-sm transition-shadow duration-200 hover:shadow-md",
       variant === "default" && "bg-white",
       variant === "glass" && "bg-white/90",
       variant === "gradient" && "bg-white",
