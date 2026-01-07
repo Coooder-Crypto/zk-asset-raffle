@@ -35,15 +35,15 @@ export function Header() {
 
         {/* Right cluster: nav + wallet + menu */}
         <div className="flex items-center gap-2">
-          <nav className="hidden md:flex items-center gap-1 mr-2 rounded-xl border border-slate-200 bg-white px-2 py-1 shadow-[0_1px_0_rgba(15,23,42,0.06)]">
+          <nav className="hidden md:flex items-center gap-1 mr-2 rounded-xl border border-slate-200 bg-white px-2 py-1">
             {navItems.map((item) => (
               <Link key={item.href} href={item.href} className="relative">
                 <span
                   className={cn(
                     "inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium transition-colors",
                     isActive(item.href)
-                      ? "bg-slate-900 text-white"
-                      : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                      ? "bg-slate-900 text-white shadow-[0_1px_0_rgba(15,23,42,0.06)]"
+                      : "text-slate-600 hover:text-slate-900"
                   )}
                 >
                   {item.label}
@@ -51,7 +51,7 @@ export function Header() {
               </Link>
             ))}
           </nav>
-          <div className="hidden sm:flex rounded-xl border border-slate-200 bg-white px-2 py-1 shadow-[0_1px_0_rgba(15,23,42,0.06)]">
+          <div className="hidden sm:flex">
             <RainbowConnectButton />
           </div>
           <button
@@ -82,7 +82,7 @@ export function Header() {
                 </span>
               </Link>
             ))}
-            <div className="mt-3 rounded-xl border border-slate-200 bg-white px-2 py-1 shadow-[0_1px_0_rgba(15,23,42,0.06)]">
+            <div className="mt-3">
               <RainbowConnectButton />
             </div>
           </div>
