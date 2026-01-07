@@ -76,3 +76,6 @@ zk-asset-raffle-contract/*
 
 
 apps/api/dist
+
+.codex
+.shared
