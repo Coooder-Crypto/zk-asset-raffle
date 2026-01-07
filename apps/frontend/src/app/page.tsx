@@ -13,10 +13,10 @@ import {
 
 export default function Home() {
   return (
-    <div className="flex flex-col gap-14">
+    <div className="flex flex-col gap-14 text-slate-900">
       {/* Hero Section */}
-      <section className="relative rounded-3xl border border-[#e7e2d9] bg-[#f8f6f2] text-slate-900 shadow-[0_8px_30px_rgba(15,23,42,0.08)]">
-        <div className="absolute inset-0 rounded-3xl bg-[linear-gradient(90deg,rgba(15,23,42,0.03)_1px,transparent_1px),linear-gradient(rgba(15,23,42,0.03)_1px,transparent_1px)] bg-[size:56px_56px] opacity-60" />
+      <section className="relative rounded-3xl border border-[#e7e2d9] bg-[#f8f6f2] shadow-[0_8px_30px_rgba(15,23,42,0.08)]">
+        <div className="absolute inset-0 rounded-3xl bg-[linear-gradient(90deg,rgba(15,23,42,0.04)_1px,transparent_1px),linear-gradient(rgba(15,23,42,0.04)_1px,transparent_1px)] bg-[size:64px_64px] opacity-60" />
         <div className="relative grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] gap-10 p-8 md:p-12 items-center">
           <div className="space-y-6">
             <div className="inline-flex items-center gap-2 rounded-full border border-slate-300/80 bg-white/80 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.2em] text-slate-600">
@@ -24,11 +24,11 @@ export default function Home() {
             </div>
             <div className="space-y-3">
               <h1 className="text-3xl md:text-5xl font-semibold tracking-tight leading-tight" style={{ fontFamily: "'Newsreader', ui-serif, Georgia, serif" }}>
-                Verifiable raffle pages for real‑world assets, written on‑chain like a document.
+                Verifiable raffles for real‑world assets, structured like a living document.
               </h1>
               <p className="text-base md:text-lg text-slate-600 max-w-xl">
-                Generate encrypted QR tickets, let users claim on-chain, then reveal proofs with zero‑knowledge. 
-                Simple flow, audit‑friendly data.
+                Issue encrypted QR tickets, let users claim on-chain, then reveal zero‑knowledge proofs. 
+                Clear steps, audit‑ready data.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3">
@@ -96,6 +96,18 @@ export default function Home() {
       </section>
 
       <section className="py-12">
+        <div className="mb-8 flex items-end justify-between gap-4">
+          <div>
+            <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Why it works</div>
+            <h2 className="text-2xl md:text-3xl font-semibold mt-2" style={{ fontFamily: "'Newsreader', ui-serif, Georgia, serif" }}>
+              The trust layer stays legible.
+            </h2>
+          </div>
+          <div className="hidden md:flex items-center gap-2 text-xs text-slate-500">
+            <span className="h-1.5 w-1.5 rounded-full bg-slate-400" />
+            Built for auditors and merchants
+          </div>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[{icon:Shield, title:'Provable Fairness', desc:'Winning info generated confidentially; merkle commitment ensures integrity.'},
             {icon:Eye, title:'Zero‑Knowledge Privacy', desc:'ZK protects confidentiality while enabling full verification.'},
@@ -112,7 +124,7 @@ export default function Home() {
       </section>
 
       <section className="py-12">
-        <div className="rounded-2xl border border-slate-200 bg-white/90 p-6 md:p-8 text-slate-900">
+        <div className="rounded-2xl border border-slate-200 bg-white/90 p-6 md:p-8">
           <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
             <div>
               <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Workflow</div>
