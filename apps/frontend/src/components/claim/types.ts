@@ -14,4 +14,5 @@ export interface ClaimResult {
 export interface QRCodeClaimProps {
   qrData: QRData;
   onClaimSuccess?: (result: ClaimResult) => void;
+  autoCheckStatus?: boolean;
 }

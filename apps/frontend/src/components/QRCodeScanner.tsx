@@ -23,7 +23,6 @@ const QRCodeScanner: React.FC<QRCodeScannerProps> = () => {
     raffleId: string;
     activity_id?: string;
   } | null>(null);
-  const [showQRCodeClaim, setShowQRCodeClaim] = useState(false);
 
   // Manual input mode state
   const [inputMode, setInputMode] = useState<'scan' | 'manual'>('scan');
@@ -66,7 +65,7 @@ const QRCodeScanner: React.FC<QRCodeScannerProps> = () => {
           plaintext: `SID: ${parsedData.sid}`,
           encrypted: `Raffle: ${raffleId}`
         });
-        setShowQRCodeClaim(false);
+        // Show claim panel immediately after processing data
         stopScanning();
       } else {
         setError('Invalid QR code format - missing sid or encrypted_data');
@@ -99,18 +98,11 @@ const QRCodeScanner: React.FC<QRCodeScannerProps> = () => {
   const resetForm = useCallback(() => {
     setQrData(null);
     setScanResult(null);
-    setShowQRCodeClaim(false);
     setError(null);
     setManualInput('');
   }, []);
 
   // Handle check status button click
-  const handleCheckStatus = useCallback(() => {
-    if (qrData) {
-      setShowQRCodeClaim(true);
-    }
-  }, [qrData]);
-
   // 开始扫描
   const startScanning = useCallback(async () => {
     if (typeof window === 'undefined') {
@@ -280,40 +272,22 @@ const QRCodeScanner: React.FC<QRCodeScannerProps> = () => {
             </div>
           </div>
 
-          {!showQRCodeClaim ? (
-            <div className="space-y-3">
-              <Button
-                onClick={handleCheckStatus}
-                className="w-full"
-                variant="gradient"
-              >
-                Check Raffle Status
-              </Button>
-              <Button
-                onClick={resetForm}
-                variant="outline"
-                className="w-full"
-              >
-                Scan Another QR Code
-              </Button>
-            </div>
-          ) : (
-            <div className="space-y-3">
-              <ClaimTicketPanel
-                qrData={qrData}
-                onClaimSuccess={() => {
-                  // Allow user to see result
-                }}
-              />
-              <Button
-                onClick={resetForm}
-                variant="outline"
-                className="w-full"
-              >
-                Scan Another QR Code
-              </Button>
-            </div>
-          )}
+          <div className="space-y-3">
+            <ClaimTicketPanel
+              qrData={qrData}
+              autoCheckStatus
+              onClaimSuccess={() => {
+                // Allow user to see result
+              }}
+            />
+            <Button
+              onClick={resetForm}
+              variant="outline"
+              className="w-full"
+            >
+              Scan Another QR Code
+            </Button>
+          </div>
         </div>
       )}
     </div>

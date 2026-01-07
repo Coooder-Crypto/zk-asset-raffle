@@ -13,7 +13,7 @@ import { ActionPanel } from '@/components/claim/ActionPanel';
 import { Modal } from '@/components/ui/modal';
 import type { QRCodeClaimProps } from '@/components/claim/types';
 
-export function ClaimTicketPanelEvm({ qrData, onClaimSuccess }: QRCodeClaimProps) {
+export function ClaimTicketPanelEvm({ qrData, onClaimSuccess, autoCheckStatus = false }: QRCodeClaimProps) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isCheckingStatus, setIsCheckingStatus] = useState(false);
   const [onChainStatus, setOnChainStatus] = useState<{
@@ -105,10 +105,11 @@ export function ClaimTicketPanelEvm({ qrData, onClaimSuccess }: QRCodeClaimProps
 
   // Auto-check status when component loads
   React.useEffect(() => {
+    if (!autoCheckStatus) return;
     if (raffleId && publicClient && raffleState !== null) {
       checkOnChainStatus();
     }
-  }, [raffleId, publicClient, raffleState, checkOnChainStatus]);
+  }, [autoCheckStatus, raffleId, publicClient, raffleState, checkOnChainStatus]);
 
   const handleClaim = async () => {
     if (!isConnected || !address) {
