@@ -1,8 +1,7 @@
 'use client';
 
 import React from 'react';
-import AdminDashboard from '@/components/admin/AdminDashboard';
-import { StatsCards } from '@/components/admin/StatsCards';
+import AdminDashboard, { StatsCards } from '@/components/admin';
 
 export default function Page() {
   const [stats, setStats] = React.useState({ activeCount: 0, totalTickets: 0, completedCount: 0 });

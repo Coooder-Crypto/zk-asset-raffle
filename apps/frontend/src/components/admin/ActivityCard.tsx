@@ -1,6 +1,5 @@
 import React from 'react';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Button, Card } from '@/components/ui';
 import { Calendar, Users, Activity, Eye, CheckCircle, QrCode, Trash2 } from 'lucide-react';
 import { getRaffleStateText, shortHash } from '@/utils/raffle';
 

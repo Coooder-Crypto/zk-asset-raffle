@@ -1,4 +1,4 @@
-import { ProgressBar } from "@/components/ui/ProgressBar";
+import { ProgressBar } from "@/components/ui";
 
 export function ProgressPanel({ step, percentage }: { step: string; percentage: number }) {
   return (

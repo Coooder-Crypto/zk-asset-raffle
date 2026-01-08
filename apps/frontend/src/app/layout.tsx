@@ -1,6 +1,6 @@
 
 import "./globals.css";
-import { ClientProviders } from "@/components/layout/ClientProviders";
+import { ClientProviders } from "@/components/layout";
 import type { Metadata } from "next";
 
 export default function RootLayout({

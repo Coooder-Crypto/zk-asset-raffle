@@ -1,5 +1,4 @@
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription, Button } from "@/components/ui";
 import { Loader2, Gift, RefreshCw, Ticket as TicketIcon } from "lucide-react";
 
 export function ActionPanel({
