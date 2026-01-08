@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ConnectButton as RainbowConnectButton } from "@rainbow-me/rainbowkit";
 import { Menu, X } from "lucide-react";
-import { ZkAssetRaffleLogo } from "@/components/brand/ZkAssetRaffleLogo";
+import { ZkAssetRaffleLogo } from "@/components/layout/brand/ZkAssetRaffleLogo";
 import { cn } from "@/utils/utils";
 
 type NavItem = { href: string; label: string };

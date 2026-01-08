@@ -13,7 +13,7 @@ import { Gift } from 'lucide-react';
 import { PrizeTierList, PrizeTier } from '@/components/create/PrizeTierList';
 import { TicketConfig } from '@/components/create/TicketConfig';
 import { ProgressPanel } from '@/components/create/ProgressPanel';
-import { SectionHeader } from '@/components/common/SectionHeader';
+import { SectionHeader } from '@/components/ui/SectionHeader';
 
 export function CreateRaffleFormEvm() {
   const [raffleName, setRaffleName] = useState('');

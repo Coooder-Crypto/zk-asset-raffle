@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input";
-import { SectionHeader } from "@/components/common/SectionHeader";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Users } from "lucide-react";
 
 export function TicketConfig({

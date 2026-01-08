@@ -11,7 +11,7 @@ import { useItemBySidFetcher } from '@/hooks/useActivityApi';
 import { sidToBytes32, base64ToHex0x } from '@/utils/raffle';
 import { ActionPanel } from '@/components/claim/ActionPanel';
 import { Modal } from '@/components/ui/modal';
-import type { QRCodeClaimProps } from '@/components/claim/types';
+import type { QRCodeClaimProps } from '@/types/ui';
 
 export function ClaimTicketPanelEvm({ qrData, onClaimSuccess, autoCheckStatus = false }: QRCodeClaimProps) {
   const [isProcessing, setIsProcessing] = useState(false);

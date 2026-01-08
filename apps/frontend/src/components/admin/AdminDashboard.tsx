@@ -15,7 +15,7 @@ import { Plus, Activity } from 'lucide-react';
 //
 import { ActivityCard } from '@/components/admin/ActivityCard';
 import { Modal } from '@/components/ui/modal';
-import RevealKeyDialog from '@/components/RevealKeyDialog';
+import RevealKeyDialog from '@/components/admin/RevealKeyDialog';
 import { QRCodeSection } from '@/components/admin/QRCodeSection';
 
 interface ActivityRow {

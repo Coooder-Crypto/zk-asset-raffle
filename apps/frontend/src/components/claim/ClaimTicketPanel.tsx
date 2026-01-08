@@ -1,6 +1,6 @@
 'use client';
 
-import type { QRCodeClaimProps } from '@/components/claim/types';
+import type { QRCodeClaimProps } from '@/types/ui';
 import { ClaimTicketPanelEvm } from '@/components/claim/ClaimTicketPanelEvm';
 
 export default function ClaimTicketPanel(props: QRCodeClaimProps) {
