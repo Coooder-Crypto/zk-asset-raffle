@@ -1,7 +1,6 @@
 
 import "./globals.css";
-import { ClientProviders } from "@/components/ClientProviders";
-// import { Footer } from "@/components/layout/Footer";
+import { ClientProviders } from "@/components/layout";
 import type { Metadata } from "next";
 
 export default function RootLayout({

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { QRCodeSVG } from 'qrcode.react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui';
 import { Download } from 'lucide-react';
 import { saveAs } from 'file-saver';
 

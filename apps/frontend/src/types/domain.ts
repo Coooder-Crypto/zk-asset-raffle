@@ -10,9 +10,3 @@ export interface ClaimResult {
   message: string;
   txHash?: string;
 }
-
-export interface QRCodeClaimProps {
-  qrData: QRData;
-  onClaimSuccess?: (result: ClaimResult) => void;
-  autoCheckStatus?: boolean;
-}

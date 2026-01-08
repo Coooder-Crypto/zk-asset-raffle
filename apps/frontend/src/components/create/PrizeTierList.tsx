@@ -1,7 +1,4 @@
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { SectionHeader } from "@/components/common/SectionHeader";
+import { Button, Card, Input, SectionHeader } from "@/components/ui";
 import { Target, PlusCircle, Trash2 } from "lucide-react";
 
 export interface PrizeTier {

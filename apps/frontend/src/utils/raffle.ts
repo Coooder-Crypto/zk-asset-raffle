@@ -10,10 +10,6 @@ export function base64ToHex0x(b64: string): string {
   return `0x${Buffer.from(b64, 'base64').toString('hex')}`;
 }
 
-export function isAddressZero(addr?: string | null): boolean {
-  return !addr || addr.toLowerCase() === '0x0000000000000000000000000000000000000000';
-}
-
 export function shortHash(hash?: string | null, length = 10): string {
   if (!hash) return '';
   return `${hash.slice(0, length)}...`;
@@ -29,4 +25,3 @@ export function getRaffleStateText(state: number | null): string {
     default: return 'Unknown';
   }
 }
-

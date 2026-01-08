@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import QRCodeScanner from '@/components/QRCodeScanner';
+import { Card, CardContent } from '@/components/ui';
+import QRCodeScanner from './QRCodeScanner';
 
 export default function ClaimForm() {
   const handleScanComplete = () => {

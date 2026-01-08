@@ -1,18 +1,15 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Alert, AlertDescription, Button, Card, CardContent, useToast } from '@/components/ui';
 import { CheckCircle, AlertCircle, Loader2, Key } from 'lucide-react';
-import { useAccount, useWriteContract, usePublicClient, useReadContract } from 'wagmi';
+import { useAccount } from 'wagmi';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
-import { useToast } from '@/components/ui/use-toast';
-import { CONTRACTS } from '@/config/contracts';
 import { useRevealActivity } from '@/hooks/useActivityApi';
-import type { RevealKeyComponentProps } from '@/components/reveal/types';
+import type { RevealKeyComponentProps } from '@/types/ui';
+import { useChainAdapter } from '@/chains/useChainAdapter';
 
-export function RevealKeyDialogEvm({ raffleId, onRevealSuccess }: RevealKeyComponentProps) {
+export default function RevealKeyDialog({ raffleId, onRevealSuccess }: RevealKeyComponentProps) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [revealResult, setRevealResult] = useState<{
     success: boolean;
@@ -20,20 +17,22 @@ export function RevealKeyDialogEvm({ raffleId, onRevealSuccess }: RevealKeyCompo
     txHash?: string;
   } | null>(null);
 
-  const { address, isConnected } = useAccount();
+  const { address } = useAccount();
   const { openConnectModal } = useConnectModal();
-  const { writeContractAsync } = useWriteContract();
-  const publicClient = usePublicClient();
+  const { adapter } = useChainAdapter();
+  const { isConnected } = adapter;
   const { toast } = useToast();
   const { revealActivity } = useRevealActivity();
+  const [raffleInfo, setRaffleInfo] = useState<{ creator?: string; state: number | null; keyRevealed?: boolean } | null>(null);
 
-  // Read contract state to check current raffle status
-  const { data: raffleData } = useReadContract({
-    address: CONTRACTS.ZK_ASSET_RAFFLE.address,
-    abi: CONTRACTS.ZK_ASSET_RAFFLE.abi,
-    functionName: 'getRaffle',
-    args: [raffleId],
-  });
+  const loadRaffle = React.useCallback(async () => {
+    const data = await adapter.getRaffle(raffleId);
+    setRaffleInfo({ creator: data.creator, state: data.state, keyRevealed: data.keyRevealed });
+  }, [adapter, raffleId]);
+
+  React.useEffect(() => {
+    loadRaffle();
+  }, [loadRaffle]);
 
   const handleRevealKey = async () => {
     if (!isConnected || !address) {
@@ -62,23 +61,7 @@ export function RevealKeyDialogEvm({ raffleId, onRevealSuccess }: RevealKeyCompo
       const encryptionKey = resp.key;
 
       // 2) Reveal on-chain using the fetched key
-      const hash = await writeContractAsync({
-        address: CONTRACTS.ZK_ASSET_RAFFLE.address,
-        abi: CONTRACTS.ZK_ASSET_RAFFLE.abi,
-        functionName: 'revealKey',
-        args: [
-          raffleId,        // raffleId
-          encryptionKey    // encryptionKey (string)
-        ]
-      });
-
-
-      // Wait for transaction confirmation
-      if (!publicClient) {
-        throw new Error('Public client is not available');
-      }
-
-      await publicClient.waitForTransactionReceipt({ hash });
+      const hash = await adapter.revealKey(raffleId, encryptionKey);
 
       const result = {
         success: true,
@@ -87,6 +70,7 @@ export function RevealKeyDialogEvm({ raffleId, onRevealSuccess }: RevealKeyCompo
       };
 
       setRevealResult(result);
+      await loadRaffle();
 
       if (onRevealSuccess) {
         onRevealSuccess(result);
@@ -127,9 +111,11 @@ export function RevealKeyDialogEvm({ raffleId, onRevealSuccess }: RevealKeyCompo
   };
 
   // Check if the user is the raffle creator
-  const isRaffleCreator = raffleData && address && raffleData.creator?.toLowerCase() === address.toLowerCase();
-  const currentState = raffleData ? raffleData.state : null;
-  const keyAlreadyRevealed = raffleData ? raffleData.keyRevealed : false;
+  const isRaffleCreator = Boolean(
+    raffleInfo?.creator && address && raffleInfo.creator.toLowerCase() === address.toLowerCase()
+  );
+  const currentState = raffleInfo ? raffleInfo.state : null;
+  const keyAlreadyRevealed = raffleInfo ? raffleInfo.keyRevealed : false;
 
   return (
     <Card>
