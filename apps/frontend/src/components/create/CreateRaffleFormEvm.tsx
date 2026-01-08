@@ -305,7 +305,7 @@ export function CreateRaffleFormEvm() {
   };
 
   const content = (
-    <form onSubmit={handleSubmit} className="space-y-8 py-8">
+    <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8 py-6 sm:py-8">
           
           <div className="space-y-6">
             <SectionHeader icon={<Gift className="h-5 w-5" />} title="Raffle Name" colorClass="primary" />

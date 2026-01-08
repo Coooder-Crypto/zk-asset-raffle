@@ -71,7 +71,7 @@ export function ActivityCard({
   return (
     <Card
       variant="glass"
-      className="relative h-full w-full flex flex-col p-3 rounded-none border border-border/60 bg-gradient-to-b from-background/80 to-muted/30 hover:border-primary/30 hover:shadow-md transition"
+      className="relative h-full w-full flex flex-col p-3 rounded-xl border border-border/60 bg-gradient-to-b from-background/80 to-muted/30 hover:border-primary/30 hover:shadow-md transition"
     >
       {/* Accent bar */}
       <div className={`absolute left-0 top-0 h-1 w-full bg-gradient-to-r ${accentBarClasses}`} />
@@ -119,30 +119,33 @@ export function ActivityCard({
       <div className="mt-3 grid grid-cols-3 gap-2">
         <Button
           variant="outline"
-          className="h-8 px-2 text-xs w-full"
+          className="h-9 sm:h-8 px-2 text-[11px] sm:text-xs w-full"
           onClick={() => {
             onLoadQR();
             onOpenQR();
           }}
+          aria-label="Open QR codes"
         >
           <QrCode className="h-4 w-4 mr-1" />
-          <span className="hidden md:inline">QR Codes</span>
+          <span className="hidden sm:inline">QR Codes</span>
         </Button>
         <Button
           variant="gradient"
-          className="h-8 px-2 text-xs w-full"
+          className="h-9 sm:h-8 px-2 text-[11px] sm:text-xs w-full"
           onClick={() => onOpenReveal()}
+          aria-label="Reveal raffle key"
         >
           <Eye className="h-4 w-4 mr-1" />
-          <span className="hidden md:inline">Reveal</span>
+          <span className="hidden sm:inline">Reveal</span>
         </Button>
         <Button
           variant="outline"
-          className="h-8 px-2 text-xs w-full text-destructive border-destructive/40 hover:bg-destructive/10"
+          className="h-9 sm:h-8 px-2 text-[11px] sm:text-xs w-full text-destructive border-destructive/40 hover:bg-destructive/10"
           onClick={onDelete}
+          aria-label="Delete raffle"
         >
           <Trash2 className="h-4 w-4 mr-1" />
-          <span className="hidden md:inline">Delete</span>
+          <span className="hidden sm:inline">Delete</span>
         </Button>
       </div>
     </Card>

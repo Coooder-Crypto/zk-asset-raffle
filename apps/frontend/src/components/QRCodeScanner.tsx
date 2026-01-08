@@ -184,16 +184,16 @@ const QRCodeScanner: React.FC<QRCodeScannerProps> = () => {
   }, [stopScanning]);
 
   return (
-    <div className="flex flex-col items-center space-y-4">
+    <div className="flex flex-col items-center space-y-4 w-full">
       {/* Mode Selection */}
-      <div className="flex space-x-2 mb-4">
+      <div className="flex flex-col sm:flex-row gap-2 mb-4 w-full">
         <Button
           variant={inputMode === 'scan' ? 'default' : 'outline'}
           onClick={() => {
             setInputMode('scan');
             resetForm();
           }}
-          className="flex items-center gap-2"
+          className="flex items-center justify-center gap-2 w-full sm:w-auto"
         >
           <Camera className="h-4 w-4" />
           Scan QR Code
@@ -205,7 +205,7 @@ const QRCodeScanner: React.FC<QRCodeScannerProps> = () => {
             resetForm();
             stopScanning();
           }}
-          className="flex items-center gap-2"
+          className="flex items-center justify-center gap-2 w-full sm:w-auto"
         >
           <Keyboard className="h-4 w-4" />
           Manual Input
@@ -213,7 +213,7 @@ const QRCodeScanner: React.FC<QRCodeScannerProps> = () => {
       </div>
 
       {error && (
-        <Alert variant="destructive" className="max-w-md">
+        <Alert variant="destructive" className="w-full max-w-md">
           <AlertCircle className="h-4 w-4" />
           <AlertDescription>{error}</AlertDescription>
         </Alert>
@@ -223,21 +223,21 @@ const QRCodeScanner: React.FC<QRCodeScannerProps> = () => {
       {inputMode === 'scan' && (
         <div className="w-full flex flex-col items-center">
           <div id="qr-scanner" className="w-full max-w-sm"></div>
-          <div className="mt-4">
+          <div className="mt-4 w-full max-w-sm">
             {isScanning ? (
-              <Button variant="secondary" onClick={stopScanning}>
+              <Button variant="secondary" onClick={stopScanning} className="w-full">
                 <X className="h-4 w-4 mr-2" />
                 Stop Scanning
               </Button>
             ) : (
-              <Button onClick={startScanning} disabled={!hasCamera}>
+              <Button onClick={startScanning} disabled={!hasCamera} className="w-full">
                 <Camera className="h-4 w-4 mr-2" />
                 Start Scanner
               </Button>
             )}
           </div>
           {scanResult && (
-            <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+            <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg w-full max-w-sm">
               <p className="text-sm font-medium text-green-800">QR Code Scanned Successfully</p>
               <p className="text-xs text-green-700 mt-1">
                 {scanResult.plaintext.substring(0, 50)}

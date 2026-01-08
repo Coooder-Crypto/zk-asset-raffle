@@ -300,7 +300,7 @@ export function ClaimTicketPanelEvm({ qrData, onClaimSuccess, autoCheckStatus = 
           <TicketIcon className="h-4 w-4 text-primary" />
           <span className="text-sm font-medium text-primary">Ticket Ready</span>
         </div>
-        <div className="mt-2 text-xs text-muted-foreground">
+        <div className="mt-2 text-[11px] sm:text-xs text-muted-foreground">
           SID: <span className="font-mono">{qrData.sid.slice(0, 8)}...</span>
           {raffleId ? (
             <> · Raffle: <span className="font-mono">{(raffleId as string).slice(0, 8)}...</span></>

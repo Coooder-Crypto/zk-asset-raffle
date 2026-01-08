@@ -17,16 +17,16 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative rounded-xl border border-[#e7e2d9] bg-[#f8f6f2] shadow-[0_8px_30px_rgba(15,23,42,0.08)]">
         <div className="absolute inset-0 rounded-xl bg-[linear-gradient(90deg,rgba(15,23,42,0.04)_1px,transparent_1px),linear-gradient(rgba(15,23,42,0.04)_1px,transparent_1px)] bg-[size:64px_64px] opacity-60" />
-        <div className="relative grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] gap-10 p-8 md:p-12 items-center">
+        <div className="relative grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] gap-8 md:gap-10 p-6 sm:p-8 md:p-12 items-center">
           <div className="space-y-6">
             <div className="inline-flex items-center gap-2 rounded-full border border-slate-300/80 bg-white/80 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.2em] text-slate-600">
               zkAssetRaffle / protocol
             </div>
             <div className="space-y-3">
-              <h1 className="text-3xl md:text-5xl font-semibold tracking-tight leading-tight" style={{ fontFamily: "'Newsreader', ui-serif, Georgia, serif" }}>
+              <h1 className="text-2xl sm:text-3xl md:text-5xl font-semibold tracking-tight leading-tight" style={{ fontFamily: "'Newsreader', ui-serif, Georgia, serif" }}>
                 Verifiable raffles for real‑world assets, structured like a living document.
               </h1>
-              <p className="text-base md:text-lg text-slate-600 max-w-xl">
+              <p className="text-sm sm:text-base md:text-lg text-slate-600 max-w-xl">
                 Issue encrypted QR tickets, let users claim on-chain, then reveal zero‑knowledge proofs. 
                 Clear steps, audit‑ready data.
               </p>
@@ -99,7 +99,7 @@ export default function Home() {
         <div className="mb-8 flex items-end justify-between gap-4">
           <div>
             <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Why it works</div>
-            <h2 className="text-2xl md:text-3xl font-semibold mt-2" style={{ fontFamily: "'Newsreader', ui-serif, Georgia, serif" }}>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold mt-2" style={{ fontFamily: "'Newsreader', ui-serif, Georgia, serif" }}>
               The trust layer stays legible.
             </h2>
           </div>
@@ -128,7 +128,7 @@ export default function Home() {
           <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
             <div>
               <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Workflow</div>
-              <h2 className="text-2xl md:text-3xl font-semibold mt-2" style={{ fontFamily: "'Newsreader', ui-serif, Georgia, serif" }}>
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold mt-2" style={{ fontFamily: "'Newsreader', ui-serif, Georgia, serif" }}>
                 A three‑step flow your users already understand.
               </h2>
             </div>

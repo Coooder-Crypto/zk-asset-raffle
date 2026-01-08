@@ -29,7 +29,7 @@ export function TicketConfig({
           {error ? (
             <p className="text-xs text-destructive">{error}</p>
           ) : (
-            <p className="text-sm text-muted-foreground mt-2">
+            <p className="text-xs sm:text-sm text-muted-foreground mt-2">
               This will determine the number of proofs and QR codes generated (1-10,000)
             </p>
           )}
@@ -38,4 +38,3 @@ export function TicketConfig({
     </div>
   );
 }
-

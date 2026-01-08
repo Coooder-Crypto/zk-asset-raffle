@@ -277,7 +277,7 @@ export default function AdminDashboard({
               </div>
               <Button
                 variant="gradient"
-                className="h-11 px-6"
+                className="h-11 px-6 w-full sm:w-auto"
                 onClick={() => window.location.href = '/create'}
               >
                 <Plus className="h-4 w-4 mr-2" />
@@ -287,9 +287,9 @@ export default function AdminDashboard({
           </Card>
         </div>
       ) : (
-        <div className="flex flex-wrap gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {entries.map((entry) => (
-            <div key={entry.id} className="w-[320px] h-[250px]">
+            <div key={entry.id} className="w-full min-h-[240px]">
               <ActivityCard
                 entry={entry}
                 onLoadQR={() => loadQRCodeItems(entry.id)}
@@ -330,13 +330,13 @@ export default function AdminDashboard({
             <p className="text-sm text-muted-foreground">
               This will permanently remove the activity and all its items from the backend database. On‑chain data is not affected.
             </p>
-            <div className="flex gap-2 justify-end">
-              <Button variant="outline" className="h-9 px-3" onClick={() => setModalOpen(false)}>
+            <div className="flex flex-col sm:flex-row gap-2 justify-end">
+              <Button variant="outline" className="h-9 px-3 w-full sm:w-auto" onClick={() => setModalOpen(false)}>
                 Cancel
               </Button>
               <Button
                 variant="destructive"
-                className="h-9 px-3"
+                className="h-9 px-3 w-full sm:w-auto"
                 onClick={confirmDelete}
                 disabled={isDeleting}
               >

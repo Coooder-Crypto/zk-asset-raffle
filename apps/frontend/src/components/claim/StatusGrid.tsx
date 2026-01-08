@@ -11,7 +11,7 @@ export function StatusGrid({
   raffleState: number | null;
 }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
       <div className="text-center space-y-2">
         <div className="text-muted-foreground text-sm">Claimed</div>
         <Badge className="inline-flex items-center gap-1 px-3 py-1">
