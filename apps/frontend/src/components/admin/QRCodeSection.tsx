@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import QRCodeDisplay from '@/components/admin/QRCodeDisplay';
+import { Alert, AlertDescription, Badge, Button } from '@/components/ui';
+import QRCodeDisplay from './QRCodeDisplay';
 import { QrCode, RefreshCw, Download, ChevronRight } from 'lucide-react';
 
 export function QRCodeSection({

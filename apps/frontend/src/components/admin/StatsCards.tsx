@@ -1,4 +1,4 @@
-import { Card } from '@/components/ui/card';
+import { Card } from '@/components/ui';
 import { Activity, Users, Trophy } from 'lucide-react';
 
 export function StatsCards({

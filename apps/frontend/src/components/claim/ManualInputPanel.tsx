@@ -1,6 +1,4 @@
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent } from "@/components/ui/card";
+import { Button, Card, CardContent, Label } from "@/components/ui";
 
 export function ManualInputPanel({
   value,

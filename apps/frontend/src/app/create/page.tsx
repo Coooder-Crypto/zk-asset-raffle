@@ -1,6 +1,6 @@
 import React from 'react';
-import CreateRaffleForm from '@/components/create/CreateRaffleForm';
-import { Card, CardContent } from '@/components/ui/card';
+import CreateRaffleForm from '@/components/create';
+import { Card, CardContent } from '@/components/ui';
 
 
 export default function CreatePage() {

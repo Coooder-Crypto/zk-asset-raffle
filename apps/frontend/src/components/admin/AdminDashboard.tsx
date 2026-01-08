@@ -1,22 +1,18 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useToast } from '@/components/ui/use-toast';
-import { useAccount, usePublicClient } from 'wagmi';
+import { Button, Card, Modal, Skeleton, useToast } from '@/components/ui';
+import { useAccount } from 'wagmi';
 import { useActivityItemsFetcher, useActivitiesByCreator, useDeleteActivity } from '@/hooks/useActivityApi';
-import { CONTRACTS } from '@/config/contracts';
+import { useChainAdapter } from '@/chains/useChainAdapter';
 // child components are composed inside ActivityCard
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import { Plus, Activity } from 'lucide-react';
 //
-import { ActivityCard } from '@/components/admin/ActivityCard';
-import { Modal } from '@/components/ui/modal';
-import RevealKeyDialog from '@/components/admin/RevealKeyDialog';
-import { QRCodeSection } from '@/components/admin/QRCodeSection';
+import { ActivityCard } from './ActivityCard';
+import RevealKeyDialog from './RevealKeyDialog';
+import { QRCodeSection } from './QRCodeSection';
 
 interface ActivityRow {
   id: string;            // activity_id
@@ -37,7 +33,7 @@ export default function AdminDashboard({
   
   const { toast } = useToast();
   const { address, isConnected } = useAccount();
-  const publicClient = usePublicClient();
+  const { adapter } = useChainAdapter();
   const { data: activitiesResp, isLoading: isActivitiesLoading } = useActivitiesByCreator(
     address ? address.toLowerCase() : undefined,
     isConnected
@@ -73,34 +69,19 @@ export default function AdminDashboard({
       setEntries(rows);
 
       // Fetch on-chain state for each activity (best-effort)
-      if (publicClient) {
-        Promise.all(rows.map(async (row) => {
-          try {
-            const data: unknown = await publicClient.readContract({
-              address: CONTRACTS.ZK_ASSET_RAFFLE.address,
-              abi: CONTRACTS.ZK_ASSET_RAFFLE.abi,
-              functionName: 'getRaffle',
-              args: [row.id],
-            });
-            let stateNum = 0;
-            if (typeof data === 'object' && data !== null) {
-              if ('state' in (data as Record<string, unknown>)) {
-                const s = (data as Record<string, unknown>).state;
-                stateNum = Number(s as number);
-              } else if (Array.isArray(data)) {
-                stateNum = Number((data as unknown[])[3] as number);
-              }
-            }
-            return { ...row, chainState: stateNum } as ActivityRow;
-          } catch {
-            return row;
-          }
-        })).then((updated) => setEntries(updated));
-      }
+      Promise.all(rows.map(async (row) => {
+        try {
+          const raffle = await adapter.getRaffle(row.id);
+          const stateNum = raffle.state ?? 0;
+          return { ...row, chainState: stateNum } as ActivityRow;
+        } catch {
+          return row;
+        }
+      })).then((updated) => setEntries(updated));
     } else if (activitiesResp.status === 'error') {
       toast({ title: 'Error', description: activitiesResp.message || 'Failed to load activities', variant: 'destructive' });
     }
-  }, [isConnected, address, publicClient, toast, activitiesResp, isActivitiesLoading]);
+  }, [isConnected, address, adapter, toast, activitiesResp, isActivitiesLoading]);
 
   // Notify parent about stats when entries change
   React.useEffect(() => {

@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button, Card } from "@/components/ui";
 import { 
   Shield, 
   Eye, 
