@@ -24,17 +24,19 @@ export function TicketInfoCard({
           </div>
 
           <div className="grid gap-4">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
               <span className="text-muted-foreground">Raffle ID</span>
-              <Badge className="font-mono">{raffleId ? `${raffleId.slice(0, 8)}...` : 'Loading...'}</Badge>
+              <Badge className="font-mono self-start sm:self-auto">
+                {raffleId ? `${raffleId.slice(0, 8)}...` : 'Loading...'}
+              </Badge>
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
               <span className="text-muted-foreground">Ticket SID</span>
-              <Badge className="font-mono">{`${sid.slice(0, 8)}...`}</Badge>
+              <Badge className="font-mono self-start sm:self-auto">{`${sid.slice(0, 8)}...`}</Badge>
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
               <span className="text-muted-foreground">Raffle State</span>
-              <Badge className="inline-flex items-center gap-1">
+              <Badge className="inline-flex items-center gap-1 self-start sm:self-auto">
                 {raffleState === 2 ? (
                   <Eye className="h-3 w-3" />
                 ) : raffleState === 1 ? (
@@ -53,4 +55,3 @@ export function TicketInfoCard({
     </Card>
   );
 }
-

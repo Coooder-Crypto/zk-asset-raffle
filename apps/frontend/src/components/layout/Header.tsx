@@ -4,7 +4,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ConnectButton as RainbowConnectButton } from "@rainbow-me/rainbowkit";
-import { Menu, X, Zap } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import { ZkAssetRaffleLogo } from "@/components/brand/ZkAssetRaffleLogo";
 import { cn } from "@/utils/utils";
 
 type NavItem = { href: string; label: string };
@@ -22,27 +23,27 @@ export function Header() {
   const isActive = (href: string) => pathname === href;
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50 border-b border-border/50 bg-[color:var(--background)]/70 backdrop-blur">
-      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+    <header className="fixed top-0 inset-x-0 z-50 border-b border-slate-200 bg-[#f8f6f2]">
+      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between text-slate-900">
         {/* Brand */}
         <Link href="/" className="flex items-center gap-3 group">
-          <span className="w-9 h-9 gradient-bg rounded-lg inline-flex items-center justify-center shadow-md">
-            <Zap className="w-5 h-5 text-white" />
+          <span className="w-10 h-10 rounded-xl inline-flex items-center justify-center border border-slate-200 bg-white shadow-[0_1px_0_rgba(15,23,42,0.06)]">
+            <ZkAssetRaffleLogo className="w-7 h-7" />
           </span>
-          <span className="text-lg font-semibold gradient-text group-hover:opacity-90">zkAssetRaffle</span>
+          <span className="text-lg font-semibold tracking-tight">zkAssetRaffle</span>
         </Link>
 
         {/* Right cluster: nav + wallet + menu */}
         <div className="flex items-center gap-2">
-          <nav className="hidden md:flex items-center gap-2 mr-2">
+          <nav className="hidden md:flex items-center gap-1 mr-2 rounded-xl border border-slate-200 bg-white px-2 py-1">
             {navItems.map((item) => (
               <Link key={item.href} href={item.href} className="relative">
                 <span
                   className={cn(
-                    "inline-flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                    "inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium transition-colors",
                     isActive(item.href)
-                      ? "bg-primary/15 text-primary"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                      ? "bg-slate-900 text-white shadow-[0_1px_0_rgba(15,23,42,0.06)]"
+                      : "text-slate-600 hover:text-slate-900"
                   )}
                 >
                   {item.label}
@@ -54,7 +55,7 @@ export function Header() {
             <RainbowConnectButton />
           </div>
           <button
-            className="md:hidden p-2 rounded-lg hover:bg-muted"
+            className="md:hidden p-2 rounded-lg hover:bg-slate-100"
             onClick={() => setMenuOpen((v) => !v)}
             aria-label="Toggle menu"
           >
@@ -65,16 +66,16 @@ export function Header() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden border-t border-border/50">
-          <div className="max-w-7xl mx-auto px-4 py-3 space-y-1">
+        <div className="md:hidden border-t border-slate-200 bg-[#f8f6f2]">
+          <div className="max-w-7xl mx-auto px-4 py-3 space-y-1 text-slate-900">
             {navItems.map((item) => (
               <Link key={item.href} href={item.href} onClick={() => setMenuOpen(false)}>
                 <span
                   className={cn(
                     "block px-3 py-2 rounded-lg text-sm font-medium",
                     isActive(item.href)
-                      ? "bg-primary/15 text-primary"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                      ? "bg-slate-900 text-white"
+                      : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
                   )}
                 >
                   {item.label}

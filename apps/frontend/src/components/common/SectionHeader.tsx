@@ -16,12 +16,11 @@ export function SectionHeader({
   };
 
   return (
-    <div className="flex items-center gap-3 pb-4 border-b border-border/50">
+    <div className="flex items-center gap-3 pb-3 sm:pb-4 border-b border-border/50">
       <div className={`p-2 rounded-lg ${colorMap[colorClass]}`}>
         {icon}
       </div>
-      <h2 className="text-xl font-semibold">{title}</h2>
+      <h2 className="text-lg sm:text-xl font-semibold">{title}</h2>
     </div>
   );
 }
-

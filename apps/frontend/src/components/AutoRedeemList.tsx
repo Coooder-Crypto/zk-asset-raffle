@@ -193,14 +193,14 @@ export default function AutoRedeemList({
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div className="flex items-center gap-2">
           <Trophy className="h-5 w-5 text-accent" />
           <h4 className="font-semibold text-lg">Prize Winners</h4>
         </div>
         <Button 
           variant="outline"
-          className="h-9 px-3"
+          className="h-9 px-3 w-full sm:w-auto"
           onClick={loadWinners} 
           disabled={loading}
         >
@@ -223,7 +223,7 @@ export default function AutoRedeemList({
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="flex items-center justify-between p-4 bg-card border border-border rounded-lg hover-lift transition-all duration-200"
+              className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 bg-card border border-border rounded-lg hover-lift transition-all duration-200"
             >
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
@@ -254,7 +254,7 @@ export default function AutoRedeemList({
               
               <Button 
                 variant={winner.isRedeemed ? "outline" : "gradient"}
-                className="h-9 px-3"
+                className="h-9 px-3 w-full sm:w-auto"
                 onClick={() => redeem(winner.sid)} 
                 disabled={!!winner.isRedeemed || winner.redeeming}
               >

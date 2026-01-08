@@ -18,7 +18,7 @@ export function ClientProviders({ children }: { children: React.ReactNode }) {
       <RainbowKitProvider>
         <Header />
         <main className="flex-1">
-          <div className="max-w-7xl mx-auto px-4 pt-24 pb-8">{children}</div>
+          <div className="max-w-7xl mx-auto px-4 pt-20 sm:pt-24 pb-8">{children}</div>
         </main>
         <Toaster />
       </RainbowKitProvider>

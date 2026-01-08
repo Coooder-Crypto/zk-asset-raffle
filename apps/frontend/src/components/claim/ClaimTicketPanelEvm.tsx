@@ -13,7 +13,7 @@ import { ActionPanel } from '@/components/claim/ActionPanel';
 import { Modal } from '@/components/ui/modal';
 import type { QRCodeClaimProps } from '@/components/claim/types';
 
-export function ClaimTicketPanelEvm({ qrData, onClaimSuccess }: QRCodeClaimProps) {
+export function ClaimTicketPanelEvm({ qrData, onClaimSuccess, autoCheckStatus = false }: QRCodeClaimProps) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isCheckingStatus, setIsCheckingStatus] = useState(false);
   const [onChainStatus, setOnChainStatus] = useState<{
@@ -105,10 +105,11 @@ export function ClaimTicketPanelEvm({ qrData, onClaimSuccess }: QRCodeClaimProps
 
   // Auto-check status when component loads
   React.useEffect(() => {
+    if (!autoCheckStatus) return;
     if (raffleId && publicClient && raffleState !== null) {
       checkOnChainStatus();
     }
-  }, [raffleId, publicClient, raffleState, checkOnChainStatus]);
+  }, [autoCheckStatus, raffleId, publicClient, raffleState, checkOnChainStatus]);
 
   const handleClaim = async () => {
     if (!isConnected || !address) {
@@ -299,7 +300,7 @@ export function ClaimTicketPanelEvm({ qrData, onClaimSuccess }: QRCodeClaimProps
           <TicketIcon className="h-4 w-4 text-primary" />
           <span className="text-sm font-medium text-primary">Ticket Ready</span>
         </div>
-        <div className="mt-2 text-xs text-muted-foreground">
+        <div className="mt-2 text-[11px] sm:text-xs text-muted-foreground">
           SID: <span className="font-mono">{qrData.sid.slice(0, 8)}...</span>
           {raffleId ? (
             <> · Raffle: <span className="font-mono">{(raffleId as string).slice(0, 8)}...</span></>

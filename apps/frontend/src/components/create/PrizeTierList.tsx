@@ -41,8 +41,14 @@ export function PrizeTierList({
         {/* Data rows */}
         <div className="divide-y divide-border/50">
           {prizeTiers.map((tier, index) => (
-            <div key={index} className="px-6 py-4 grid grid-cols-1 gap-4 items-center md:[grid-template-columns:1.5fr_0.6fr_0.6fr_1fr]">
+            <div
+              key={index}
+              className="px-4 sm:px-6 py-4 grid grid-cols-1 gap-4 items-center md:[grid-template-columns:1.5fr_0.6fr_0.6fr_1fr]"
+            >
               <div className="space-y-2 min-w-0">
+                <div className="text-[11px] uppercase tracking-wide text-slate-400 md:hidden">
+                  Prize Name
+                </div>
                 <Input
                   placeholder="e.g., iPhone 15"
                   value={tier.name}
@@ -51,6 +57,9 @@ export function PrizeTierList({
                 />
               </div>
               <div className="space-y-2">
+                <div className="text-[11px] uppercase tracking-wide text-slate-400 md:hidden">
+                  Quantity
+                </div>
                 <Input
                   type="number"
                   min={1}
@@ -62,6 +71,9 @@ export function PrizeTierList({
                 />
               </div>
               <div className="space-y-2">
+                <div className="text-[11px] uppercase tracking-wide text-slate-400 md:hidden">
+                  Win Rate (%)
+                </div>
                 <Input
                   type="number"
                   min={0.1}
@@ -74,12 +86,12 @@ export function PrizeTierList({
                   required
                 />
               </div>
-              <div className="flex gap-2 md:justify-end md:flex-nowrap flex-wrap w-full">
+              <div className="flex flex-col sm:flex-row gap-2 md:justify-end md:flex-nowrap w-full">
                 <Button
                   type="button"
                   variant="outline"
                   onClick={() => onRemove(index)}
-                  className="h-9 px-3"
+                  className="h-9 px-3 w-full sm:w-auto"
                   disabled={prizeTiers.length === 1}
                   title={prizeTiers.length === 1 ? 'At least one tier required' : 'Remove this tier'}
                 >
@@ -89,7 +101,7 @@ export function PrizeTierList({
                   type="button"
                   variant="outline"
                   onClick={() => (onInsertAfter ? onInsertAfter(index) : onAdd())}
-                  className="h-9 px-3"
+                  className="h-9 px-3 w-full sm:w-auto"
                   title="Add a new tier below"
                 >
                   <PlusCircle className="h-4 w-4 mr-2" /> Add Below

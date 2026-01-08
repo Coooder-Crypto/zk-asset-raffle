@@ -21,12 +21,12 @@ export function QRCodeSection({
   if (!items || items.length === 0) {
     return (
       <div className="space-y-4">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div className="flex items-center gap-2">
             <QrCode className="h-5 w-5 text-primary" />
             <h4 className="font-semibold text-lg">QR Codes</h4>
           </div>
-          <Button variant="outline" className="h-9 px-3" onClick={onRefresh}>
+          <Button variant="outline" className="h-9 px-3 w-full sm:w-auto" onClick={onRefresh}>
             <RefreshCw className="h-4 w-4 mr-2" /> Refresh
           </Button>
         </div>
@@ -39,17 +39,17 @@ export function QRCodeSection({
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div className="flex items-center gap-2">
           <QrCode className="h-5 w-5 text-primary" />
           <h4 className="font-semibold text-lg">QR Codes</h4>
           <Badge variant="secondary">{items.length} total</Badge>
         </div>
-        <div className="flex gap-2">
-          <Button variant="outline" className="h-9 px-3" onClick={onRefresh}>
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+          <Button variant="outline" className="h-9 px-3 w-full sm:w-auto" onClick={onRefresh}>
             <RefreshCw className="h-4 w-4 mr-2" /> Refresh
           </Button>
-          <Button variant="default" className="h-9 px-3" onClick={onDownload}>
+          <Button variant="default" className="h-9 px-3 w-full sm:w-auto" onClick={onDownload}>
             <Download className="h-4 w-4 mr-2" /> Download All
           </Button>
         </div>
