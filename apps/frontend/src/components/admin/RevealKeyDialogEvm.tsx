@@ -10,7 +10,7 @@ import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { useToast } from '@/components/ui/use-toast';
 import { CONTRACTS } from '@/config/contracts';
 import { useRevealActivity } from '@/hooks/useActivityApi';
-import type { RevealKeyComponentProps } from '@/components/admin/types';
+import type { RevealKeyComponentProps } from '@/types/ui';
 
 export function RevealKeyDialogEvm({ raffleId, onRevealSuccess }: RevealKeyComponentProps) {
   const [isProcessing, setIsProcessing] = useState(false);
