@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Camera, X, AlertCircle, Keyboard } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import ClaimTicketPanel from '@/components/claim/ClaimTicketPanel';
-import { ManualInputPanel } from '@/components/scanner/ManualInputPanel';
+import { ManualInputPanel } from '@/components/claim/ManualInputPanel';
 
 interface QRCodeScannerProps {
   onScan?: (data: { plaintext: string, encrypted: string }) => void;
