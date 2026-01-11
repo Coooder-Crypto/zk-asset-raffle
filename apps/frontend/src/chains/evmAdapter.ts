@@ -1,7 +1,8 @@
 "use client";
 
 import { useAccount, usePublicClient, useWriteContract } from "wagmi";
-import { CONTRACTS } from "@/config/contracts";
+import { CONTRACT_ABI } from "@/config/contracts";
+import { getChainConfig } from "@/chains/registry";
 import { base64ToHex0x, sidToBytes32 } from "@/utils/raffle";
 import type { ChainAdapter, RaffleView, TicketClaimView } from "@/chains/types";
 
@@ -9,13 +10,21 @@ export function useEvmAdapter(chainKey: string): ChainAdapter {
   const { address, isConnected } = useAccount();
   const publicClient = usePublicClient();
   const { writeContractAsync } = useWriteContract();
-  const contract = CONTRACTS.ZK_ASSET_RAFFLE;
+  const chainConfig = getChainConfig(chainKey as never);
+  const raffleAddress = chainConfig.contracts?.raffle;
 
   const requireClient = () => {
     if (!publicClient) {
       throw new Error("Public client is not available");
     }
     return publicClient;
+  };
+
+  const requireRaffleAddress = () => {
+    if (!raffleAddress) {
+      throw new Error(`Raffle contract is not configured for chain ${chainKey}`);
+    }
+    return raffleAddress;
   };
 
   const waitForTx = async (hash: `0x${string}`) => {
@@ -67,8 +76,8 @@ export function useEvmAdapter(chainKey: string): ChainAdapter {
     isConnected,
     createRaffle: async (raffleId, totalItems) => {
       const hash = await writeContractAsync({
-        address: contract.address,
-        abi: contract.abi,
+        address: requireRaffleAddress(),
+        abi: CONTRACT_ABI,
         functionName: "createRaffle",
         args: [raffleId, BigInt(totalItems)],
       });
@@ -77,8 +86,8 @@ export function useEvmAdapter(chainKey: string): ChainAdapter {
     },
     commitRaffle: async (raffleId, merkleRoot) => {
       const hash = await writeContractAsync({
-        address: contract.address,
-        abi: contract.abi,
+        address: requireRaffleAddress(),
+        abi: CONTRACT_ABI,
         functionName: "commitRaffle",
         args: [raffleId, merkleRoot],
       });
@@ -87,8 +96,8 @@ export function useEvmAdapter(chainKey: string): ChainAdapter {
     },
     revealKey: async (raffleId, encryptionKey) => {
       const hash = await writeContractAsync({
-        address: contract.address,
-        abi: contract.abi,
+        address: requireRaffleAddress(),
+        abi: CONTRACT_ABI,
         functionName: "revealKey",
         args: [raffleId, encryptionKey],
       });
@@ -97,8 +106,8 @@ export function useEvmAdapter(chainKey: string): ChainAdapter {
     },
     claimTicket: async (raffleId, sid, encryptedData) => {
       const hash = await writeContractAsync({
-        address: contract.address,
-        abi: contract.abi,
+        address: requireRaffleAddress(),
+        abi: CONTRACT_ABI,
         functionName: "claimTicket",
         args: [raffleId, sidToBytes32(sid), base64ToHex0x(encryptedData)],
       });
@@ -107,8 +116,8 @@ export function useEvmAdapter(chainKey: string): ChainAdapter {
     },
     redeemPrize: async (raffleId, sid, r_i, win_i, proof) => {
       const hash = await writeContractAsync({
-        address: contract.address,
-        abi: contract.abi,
+        address: requireRaffleAddress(),
+        abi: CONTRACT_ABI,
         functionName: "redeemPrize",
         args: [raffleId, sidToBytes32(sid), r_i, win_i, proof],
       });
@@ -118,8 +127,8 @@ export function useEvmAdapter(chainKey: string): ChainAdapter {
     getRaffle: async (raffleId) => {
       const client = requireClient();
       const data = await client.readContract({
-        address: contract.address,
-        abi: contract.abi,
+        address: requireRaffleAddress(),
+        abi: CONTRACT_ABI,
         functionName: "getRaffle",
         args: [raffleId],
       });
@@ -128,8 +137,8 @@ export function useEvmAdapter(chainKey: string): ChainAdapter {
     getTicketClaim: async (raffleId, sid) => {
       const client = requireClient();
       const data = await client.readContract({
-        address: contract.address,
-        abi: contract.abi,
+        address: requireRaffleAddress(),
+        abi: CONTRACT_ABI,
         functionName: "getTicketClaim",
         args: [raffleId, sidToBytes32(sid)],
       });

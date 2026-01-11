@@ -50,6 +50,7 @@ lerna-debug.log*
 .env.development.local
 .env.test.local
 .env.production.local
+contracts/.env
 
 # vercel
 .vercel
@@ -74,8 +75,14 @@ zk-asset-raffle-contract/*
 !zk-asset-raffle-contract/move/
 !zk-asset-raffle-contract/move/**
 
+# foundry build artifacts
+contracts/lib
+contracts/out
+contracts/cache
+
 
 apps/api/dist
 
 .codex
 .shared
+cache
