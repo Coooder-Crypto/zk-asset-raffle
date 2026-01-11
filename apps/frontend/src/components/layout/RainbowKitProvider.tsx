@@ -8,7 +8,7 @@ import {
   lightTheme
 } from '@rainbow-me/rainbowkit';
 import { WagmiProvider } from 'wagmi';
-import { mainnet, sepolia } from 'wagmi/chains';
+import { mainnet, sepolia, arbitrumSepolia, mantleTestnet } from 'wagmi/chains';
 import { http } from 'viem';
 
 // You should get a project ID from WalletConnect Cloud: https://cloud.walletconnect.com/
@@ -26,10 +26,12 @@ export const RainbowKitProvider: React.FC<RainbowKitProviderProps> = ({ children
   const config = useMemo(() => getDefaultConfig({
     appName: 'ZK Asset Raffle',
     projectId,
-    chains: [mainnet, sepolia],
+    chains: [mainnet, sepolia, mantleTestnet, arbitrumSepolia],
     transports: {
       [mainnet.id]: http(),
       [sepolia.id]: http(process.env.NEXT_PUBLIC_SEPOLIA_RPC_URL),
+      [mantleTestnet.id]: http(process.env.NEXT_PUBLIC_MANTLE_TESTNET_RPC_URL),
+      [arbitrumSepolia.id]: http(process.env.NEXT_PUBLIC_ARBITRUM_SEPOLIA_RPC_URL),
     },
     ssr: true,
   }), []);
