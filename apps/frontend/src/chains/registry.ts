@@ -13,15 +13,15 @@ export const CHAIN_REGISTRY = {
       raffle: CONTRACTS_BY_CHAIN.sepolia.raffle,
     },
   },
-  mantleTestnet: {
-    key: "mantleTestnet",
-    name: NETWORKS.mantleTestnet.name,
+  mantleSepoliaTestnet: {
+    key: "mantleSepoliaTestnet",
+    name: NETWORKS.mantleSepoliaTestnet.name,
     chainType: "evm",
-    chainId: NETWORKS.mantleTestnet.chainId,
-    rpcUrl: NETWORKS.mantleTestnet.rpcUrl,
-    explorerUrl: NETWORKS.mantleTestnet.blockExplorer,
+    chainId: NETWORKS.mantleSepoliaTestnet.chainId,
+    rpcUrl: NETWORKS.mantleSepoliaTestnet.rpcUrl,
+    explorerUrl: NETWORKS.mantleSepoliaTestnet.blockExplorer,
     contracts: {
-      raffle: CONTRACTS_BY_CHAIN.mantleTestnet.raffle,
+      raffle: CONTRACTS_BY_CHAIN.mantleSepoliaTestnet.raffle,
     },
   },
   arbitrumSepolia: {

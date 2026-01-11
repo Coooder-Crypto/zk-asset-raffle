@@ -6,8 +6,8 @@ export const CONTRACTS_BY_CHAIN = {
     raffle: (process.env.NEXT_PUBLIC_SEPOLIA_RAFFLE_CONTRACT_ADDRESS ||
       "0x1234567890123456789012345678901234567890") as `0x${string}`,
   },
-  mantleTestnet: {
-    raffle: (process.env.NEXT_PUBLIC_MANTLE_TESTNET_RAFFLE_CONTRACT_ADDRESS ||
+  mantleSepoliaTestnet: {
+    raffle: (process.env.NEXT_PUBLIC_MANTLE_SEPOLIA_TESTNET_RAFFLE_CONTRACT_ADDRESS ||
       "0x1234567890123456789012345678901234567890") as `0x${string}`,
   },
   arbitrumSepolia: {
@@ -26,11 +26,11 @@ export const NETWORKS = {
     rpcUrl: process.env.NEXT_PUBLIC_SEPOLIA_RPC_URL || "https://sepolia.infura.io/v3/YOUR_PROJECT_ID",
     blockExplorer: "https://sepolia.etherscan.io",
   },
-  mantleTestnet: {
-    chainId: 5001,
-    name: "Mantle Testnet",
-    rpcUrl: process.env.NEXT_PUBLIC_MANTLE_TESTNET_RPC_URL || "https://rpc.testnet.mantle.xyz",
-    blockExplorer: "https://explorer.testnet.mantle.xyz",
+  mantleSepoliaTestnet: {
+    chainId: 5003,
+    name: "Mantle Sepolia Testnet",
+    rpcUrl: process.env.NEXT_PUBLIC_MANTLE_SEPOLIA_TESTNET_RPC_URL || "https://rpc.sepolia.mantle.xyz",
+    blockExplorer: "https://explorer.sepolia.mantle.xyz",
   },
   arbitrumSepolia: {
     chainId: 421614,
