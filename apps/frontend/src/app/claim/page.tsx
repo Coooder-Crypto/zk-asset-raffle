@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import type { Metadata } from 'next/types';
-import ClaimForm from '@/components/claim';
+import { ClaimForm } from '@/components/claim';
 
 export const metadata: Metadata = {
   title: 'Scan QR Code | ZK Asset Raffle',

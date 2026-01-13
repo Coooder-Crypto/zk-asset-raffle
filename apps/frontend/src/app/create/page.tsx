@@ -1,5 +1,5 @@
 import React from 'react';
-import CreateRaffleForm from '@/components/create';
+import { CreateRaffleForm } from '@/components/create';
 import { Card, CardContent } from '@/components/ui';
 
 
