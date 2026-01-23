@@ -1,8 +1,8 @@
-# zkAssetRaffle: A Blockchain-Based Verifiable Raffle Protocol for Real-World Assets
+# zkAssetRaffle: A Verifiable Raffle Protocol for Real-World Assets
 
 - [update]: We are happy to announce that zkAssetRaffle won the first prize in the public goods track at Eth Beijing Hackathon🎉
 
-> A decentralized, transparent, and tamper-proof fair raffle system integrating real-world assets into blockchain technology.
+> A decentralized, transparent, and tamper-proof raffle system that bridges physical products and on-chain verification.
 
 <a href="https://www.youtube.com/watch?v=Q59xeqDVpKQ" style="display: inline-block; width: 45%; text-align: left; padding-left: 10px;">
   <img src="https://img.shields.io/badge/Demo-YouTube-FF0000?style=flat-square&logo=youtube&logoColor=white" alt="Youtube Demo" style="transform: scale(1.2);">
@@ -13,7 +13,7 @@ In daily consumption scenarios, merchants often use raffles to attract users. Ho
 
 At the same time, while blockchain technology can provide transparency and verifiability, it remains challenging to link a massive number of real-world assets (RWA) — such as beverages, takeout, or daily goods — to on-chain credentials while ensuring fairness and privacy.
 
-To mitigate this gap, we design zkAssetRaffle, a decentralized, fair, and verifiable raffle protocol specifically designed for Real-World Assets (RWA). This protocol enables merchants to conduct fair and verifiable raffle events tied to physical products (e.g., beverages, food products, luxuries) using encrypted QR codes. It allows merchants to easily generate unique raffle encryped QR codes for each product, while ensuring that:
+To mitigate this gap, we design zkAssetRaffle, a decentralized, fair, and verifiable raffle protocol specifically designed for Real-World Assets (RWA). This protocol enables merchants to conduct fair and verifiable raffle events tied to physical products (e.g., beverages, food products, luxuries) using encrypted QR codes. It allows merchants to easily generate unique raffle encrypted QR codes for each product, while ensuring that:
 
 (1) Fairness: Winning information is generated in a confidential environment, making it impossible for merchants to predict or alter the outcome.
 
@@ -23,12 +23,12 @@ To mitigate this gap, we design zkAssetRaffle, a decentralized, fair, and verifi
 
 With this design, zkAssetRaffle is expected to bring the vast array of goods and users from everyday consumption scenarios onto the blockchain, becoming a potential pathway for achieving mass adoption of Web3.
 
-# A Brief Illustration of the Entire Process:
-Stage I: Generate Commitment and encrypted QR Codes: The merchant sets the activity information, and zkAssetRaffle protocol generates an encrypted QR code in a confidential environment (such as TEE).
+# A Brief Illustration of the Entire Process
+Stage I: Generate Commitment and Encrypted QR Codes. The merchant sets the activity information, and zkAssetRaffle generates encrypted QR codes in a confidential environment (such as TEE).
 
-Stage II: On-Chain Claim: Users scan the QR codes, sign transactions to register for raffles.
+Stage II: On-Chain Claim. Users scan the QR codes and sign transactions to register for raffles.
 
-Stage III: Reveal Commitment and Settle Rewards: After the designated period, zkAssetRaffle protocol publicly disclose the decryption key and zk proofs. Anyone can verify the winning information and claim their rewards.
+Stage III: Reveal Commitment and Settle Rewards. After the designated period, zkAssetRaffle publicly discloses the decryption key and zk proofs. Anyone can verify the winning information and claim rewards.
 
 ----------
 
@@ -74,11 +74,42 @@ $$Verify MerkleProof(\mathrm{keccak256}(\mathrm{sid}_i,r_i,\mathrm{win}_i),merkl
 ![](image.png)
 
 ## Repository Layout (Monorepo)
-- `apps/frontend`: Next.js frontend
-- `apps/api`: Node.js (Fastify) API service
-- `contracts/sol`: Solidity contracts
-- `contracts/move`: Move contracts
-- `packages/`: Shared libraries (future)
+- `apps/frontend`: Next.js app (UI, wallet connection, QR scan/claim, admin console)
+- `apps/api`: Fastify + tRPC API server (activity creation, item storage, Merkle data, reveal)
+- `contracts/sol`: Solidity contracts (EVM raffle logic)
+- `contracts/move`: Move contracts (WIP)
+- `packages/crypto`: Crypto utilities (hashing, Merkle tree, AES helpers)
+- `packages/trpc`: Shared tRPC router definitions
+- `packages/types`: Shared types
+- `packages/sdk`: Client SDK wrapper for tRPC
+- `contracts/scripts`: Deployment scripts (Foundry)
+- `contracts/out`: Foundry build artifacts
+
+## Blockchain Support
+zkAssetRaffle is designed to be chain-agnostic, with an EVM implementation in production and a Move implementation in progress.
+
+- EVM networks supported by the frontend:
+  - Sepolia (Ethereum)
+  - Mantle Sepolia Testnet
+  - Arbitrum Sepolia
+- Move contracts: `contracts/move`
+
+### Chain Configuration
+Set addresses and RPC endpoints in `apps/frontend/.env`:
+- `NEXT_PUBLIC_*_RAFFLE_CONTRACT_ADDRESS`
+- `NEXT_PUBLIC_*_RPC_URL`
+
+For deployments and verification, use `contracts/.env`:
+- `MANTLE_SEPOLIA_TESTNET_RPC_URL`
+- `ARBITRUM_SEPOLIA_RPC_URL`
+- `ARBISCAN_API_KEY`
+
+## Key Capabilities
+RWA / RealFi: zkAssetRaffle treats physical goods as verifiable participation units. Each product is mapped to a QR-bound identity and a committed leaf, which allows merchants to bridge offline inventory and on-chain provenance without tokenizing the item itself. This provides a pragmatic RealFi path: merchants get measurable engagement and settlement guarantees, while users can verify fairness without needing specialized custody or complex asset issuance.
+
+ZK & Privacy: The protocol uses commit-reveal with encrypted payloads and Merkle proofs to keep outcomes private until disclosure. It protects participant privacy by avoiding public exposure of winning status while still enabling public verification of integrity. The design is compatible with selective disclosure patterns and can be extended to ZK-KYC or compliance attestations without leaking sensitive data.
+
+Infrastructure & Tooling: The project ships as a full-stack, developer-ready monorepo with shared crypto utilities, typed tRPC contracts, and an SDK layer. It includes operational primitives for activity creation, item storage, proof generation, and redemption, plus deployment scripts for EVM chains. This makes it straightforward to integrate into merchant systems or build dashboards and plugins on top.
 
 ## Development Quickstart
 - All services (frontend + API): `pnpm dev`
